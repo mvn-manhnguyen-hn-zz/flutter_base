@@ -1,7 +1,9 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/home/home_controller.dart';
+import 'package:flutter_base/app/routes/app_pages.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:get/get.dart';
 
@@ -11,18 +13,13 @@ class HomeView extends View {
 }
 
 class _HomeViewState extends ViewState<HomeView, HomeController> {
+
   @override
   void initState() {
     super.initState();
     controller.fetchListShop();
-
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
 
   @override
   Widget buildPage(context) {
@@ -32,10 +29,19 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                 appBar: AppBar(
                   centerTitle: true,
                   title: Text('Title tu sua nhe'),
+                  actions: [
+                    IconButton(
+                        icon: Icon(Icons.directions, color: Colors.black),
+                        onPressed: () async {
+                          Get.toNamed(Routes.PROFILE);
+                        }
+                    )
+                  ],
                 ),
                 body: ListView.builder(
                     itemCount: controller.listShop.length,
                     itemBuilder: (context, index) {
+                      //print(controller.listShop[index].name);
                       return Text(controller.listShop[index].name);
                     })),
             loading(
