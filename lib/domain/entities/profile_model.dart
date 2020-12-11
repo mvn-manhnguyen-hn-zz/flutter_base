@@ -1,5 +1,3 @@
-
-
 class ProfileModel {
   int id;
   String name;

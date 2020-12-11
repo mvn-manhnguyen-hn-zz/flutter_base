@@ -43,7 +43,6 @@ class LoginController extends Controller {
     //   (data) async {
     //
     //   },
-    print(token[1]);
     await HiveStorage.persistToken(token[1]);
 
     status(Status.success);

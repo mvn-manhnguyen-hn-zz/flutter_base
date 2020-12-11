@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter_base/data/storage/hive_storage.dart';
 
@@ -8,6 +7,7 @@ class ApiConstant{
   //API
   static const SHOPS = 'shops';
   static const PROFILE = 'profile';
+  static const CHANGEPROFILE = 'profile/change';
 }
 class HeaderNetWorkConstant {
   static final BaseOptions baseOptions = BaseOptions(

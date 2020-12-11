@@ -1,4 +1,3 @@
-
 import 'package:flutter_base/app/binding/home/home_binding.dart';
 import 'package:flutter_base/app/binding/login/login_binding.dart';
 import 'package:flutter_base/app/binding/profile/profile_binding.dart';

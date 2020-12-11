@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
@@ -12,17 +11,12 @@ class ProfileView extends View {
 }
 
 class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
-
   @override
   void initState() {
     controller.fetchInformation();
     super.initState();
   }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+
 
   @override
   Widget buildPage(BuildContext context) {
@@ -33,20 +27,13 @@ class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
           appBar: AppBar(
             centerTitle: true,
             title: Text('Cá nhân'),
-            actions: [
-              IconButton(
-                  icon: Icon(Icons.adb),
-                  onPressed: (){
-
-                  }
-              )
-            ],
           ),
           body: controller.information.value == null ?
               Container() :
               showInformation(
                 profileModel: controller.information.value,
-                context: context
+                context: context,
+                endBankAccount: controller.endBankAccount.value
               )
         ),
         loading(
