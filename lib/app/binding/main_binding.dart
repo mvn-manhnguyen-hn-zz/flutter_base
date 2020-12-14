@@ -8,7 +8,7 @@ class MainBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => Dio(HeaderNetWorkConstant.baseOptions));
-    Get.lazyPut(() => NetworkManager(dio: Get.find()));
+    Get.lazyPut<NetworkManagerInterFace>(() => NetworkManager(dio: Get.find()));
 
   }
 }
