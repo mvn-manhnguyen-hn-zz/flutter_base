@@ -10,10 +10,12 @@ class ShopProviders implements ShopRepository {
   ShopProviders({this.networkManager});
 
   @override
-  Future<List<ShopModel>> getListShop() async{
+  Future<List<ShopModel>> getListShop() async {
     try {
       final response = await networkManager.requestApi(
-          path: ApiConstant.SHOPS, method: HttpMethodConstant.GET,usingUserToken: true);
+          path: ApiConstant.SHOPS,
+          method: HttpMethodConstant.GET,
+          usingUserToken: true);
       return (response.data as List).map((e) => ShopModel.fromJson(e)).toList();
     } on DioError catch (e) {
       return Future.error(e.response.data);
