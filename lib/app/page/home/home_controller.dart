@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_base/app/base/controller.dart';
+import 'package:flutter_base/data/network/repositories/shop_repository.dart';
 import 'package:flutter_base/domain/entities/shop_model.dart';
-import 'package:flutter_base/domain/interfaces/shop_interfaces.dart';
 import 'package:get/get.dart';
 
 
 class HomeController extends Controller {
-  HomeController({@required this.shopInterface});
+  HomeController({@required this.shopRepository});
 
   /// inject repo abstraction dependency
-  final ShopInterface shopInterface;
+  final ShopRepository shopRepository;
 
   /// create a reactive status from request with initial value = loading
 
@@ -19,7 +19,7 @@ class HomeController extends Controller {
   Future<void> fetchListShop({VoidCallback callback}) async {
     status(Status.loading);
 
-     shopInterface.getListShop().then(
+    shopRepository.getListShop().then(
       (data) {
         listShop.clear();
         listShop.addAll(data);
