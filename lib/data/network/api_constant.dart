@@ -1,6 +1,5 @@
 
 import 'package:dio/dio.dart';
-import 'package:flutter_base/data/storage/hive_storage.dart';
 
 class ApiConstant{
   static const  BASE_URL = 'https://demo.shopmede.com/api/';
@@ -8,6 +7,15 @@ class ApiConstant{
   //API
   static const SHOPS = 'shops';
 
+}
+
+class HttpMethodConstant{
+  static const  POST = 'POST';
+  static const  GET = 'GET';
+  static const  PUT = 'PUT';
+  static const  HEAD = 'HEAD';
+  static const  DELETE = 'DELETE';
+  static const  PATCH = 'PATCH';
 }
 class HeaderNetWorkConstant {
   static final BaseOptions baseOptions = BaseOptions(
@@ -21,19 +29,5 @@ class HeaderNetWorkConstant {
         'accept': 'application/json'
       });
 
-  static Future<Options> getOptionsWithToken({
-    String accept = 'application/json',
-    int sendTimeout = 60000,
-    int receiveTimeout = 60000,
-  }) async {
-    final token = await HiveStorage.getToken();
-    return Options(
-        sendTimeout: sendTimeout,
-        receiveTimeout: receiveTimeout,
-        headers: {
-          'accept': accept,
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-          'Access-Token': token,
-        });
-  }
+
 }
