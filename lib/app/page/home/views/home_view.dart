@@ -26,14 +26,6 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                 appBar: AppBar(
                   centerTitle: true,
                   title: Text('Title tu sua nhe'),
-                  actions: [
-                    IconButton(
-                        icon: Icon(Icons.adb),
-                        onPressed: (){
-                          Get.toNamed(Routes.RANKTOP);
-                        }
-                    )
-                  ],
                 ),
                 body: ListView.builder(
                     itemCount: controller.listShop.length,
