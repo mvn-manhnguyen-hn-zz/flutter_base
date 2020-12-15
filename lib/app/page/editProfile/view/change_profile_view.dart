@@ -11,13 +11,13 @@ class EditProfileView extends View {
 }
 
 class _EditProfileViewState extends ViewState<EditProfileView, EditProfileController> {
-  String bankName, branchName, bankOwnerAccount, bankAccount, phone, facebookNickname, nicknames;
+  @override
+  void initState() {
+    controller.getData(Get.arguments);
+    super.initState();
+  }
   @override
   Widget buildPage(BuildContext context) {
-    final ProfileModel profileModel = Get.arguments;
-    final nicknamesUpdated = profileModel.nicknames.toString().characters.getRange(
-        1, profileModel.nicknames.toString().length-1
-    );
     // TODO: implement buildPage
     return Scaffold(
       appBar: AppBar(
@@ -32,51 +32,52 @@ class _EditProfileViewState extends ViewState<EditProfileView, EditProfileContro
               children: [
                 textFormField(
                     labelText: 'Tên ngân hàng',
-                    initialValue: profileModel.bankName,
+                    initialValue: controller.profileModel.value.bankName,
                     onChange: (text){
-                      bankName = text;
+                      controller.bankName(text);
+                      print(controller.bankName.value);
                     }
                 ),
                 textFormField(
                     labelText: 'Chi nhánh ngân hàng',
-                    initialValue: profileModel.branchName,
+                    initialValue: controller.profileModel.value.branchName,
                     onChange: (text){
-                      branchName = text;
+                      controller.branchName(text);
                     }
                 ),
                 textFormField(
                     labelText: 'Tên chủ tài khoản',
-                    initialValue: profileModel.bankOwnerAccount,
+                    initialValue: controller.profileModel.value.bankOwnerAccount,
                     onChange: (text){
-                      bankOwnerAccount = text;
+                      controller.bankOwnerAccount(text);
                     }
                 ),
                 textFormField(
                     labelText: 'Tài khoản',
-                    initialValue: profileModel.bankAccount,
+                    initialValue: controller.profileModel.value.bankAccount,
                     onChange: (text){
-                      bankAccount = text;
+                      controller.bankAccount(text);
                     }
                 ),
                 textFormField(
                     labelText: 'Số điện thoại',
-                    initialValue: profileModel.phone,
+                    initialValue: controller.profileModel.value.phone,
                     onChange: (text){
-                      phone = text;
+                      controller.phone(text);
                     }
                 ),
                 textFormField(
                     labelText: 'Facebook Link',
-                    initialValue: profileModel.facebookNickname,
+                    initialValue: controller.profileModel.value.facebookNickname,
                     onChange: (text){
-                      facebookNickname = text;
+                      controller.facebookNickname(text);
                     }
                 ),
                 textFormField(
                     labelText: 'Danh sách mua hàng',
-                    initialValue: profileModel.nicknames.toString(),
+                    initialValue: controller.nicknamesUpdated.value,
                     onChange: (text){
-                      nicknames = text;
+                      controller.nicknames(text);
                     }
                 )
               ],
@@ -90,17 +91,9 @@ class _EditProfileViewState extends ViewState<EditProfileView, EditProfileContro
               child: RaisedButton(
                 color: Colors.blue,
                 onPressed: () async {
-                  await controller.editData(
-                    bankName: bankName ?? profileModel.bankName,
-                    branchName: branchName ?? profileModel.branchName,
-                    bankOwnerAccount: bankOwnerAccount ?? profileModel.bankOwnerAccount,
-                    bankAccount: bankAccount ?? profileModel.bankAccount,
-                    phone: phone ?? profileModel.phone,
-                    facebookNickname: facebookNickname ?? profileModel.facebookNickname,
-                    nicknames: nicknames ?? nicknamesUpdated.toString(),
-                  );
+                  await controller.editData();
                   Get.back(
-                    result: 'true'
+                    result: true
                   );
                 },
                 child: Text('Xác nhận'),

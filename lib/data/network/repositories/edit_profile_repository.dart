@@ -17,19 +17,23 @@ class EditProfileRepository extends EditProfileInterface{
     @required String facebookNickname,
     @required String nicknames
 }) async {
-    dio.put(
-      ApiConstant.EDITPROFILE,
-      options: await HeaderNetWorkConstant.getOptionsWithToken(),
-      queryParameters: ({
-        'bank_name' : bankName,
-        'branch_name' : branchName,
-        'bank_owner_account' : bankOwnerAccount,
-        'bank_account' : bankAccount,
-        'phone' : phone,
-        'facebook_nickname' : facebookNickname,
-        'nicknames' : nicknames
-      }),
-    );
-    return;
+    try{
+      await dio.put(
+        ApiConstant.EDITPROFILE,
+        options: await HeaderNetWorkConstant.getOptionsWithToken(),
+        queryParameters: ({
+          'bank_name' : bankName,
+          'branch_name' : branchName,
+          'bank_owner_account' : bankOwnerAccount,
+          'bank_account' : bankAccount,
+          'phone' : phone,
+          'facebook_nickname' : facebookNickname,
+          'nicknames' : nicknames
+        }),
+      );
+    } catch (e) {
+      print(e);
+      return Future.error(e.response.data);
+    }
   }
 }
