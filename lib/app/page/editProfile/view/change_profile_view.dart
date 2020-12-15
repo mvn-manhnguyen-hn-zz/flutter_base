@@ -35,7 +35,6 @@ class _EditProfileViewState extends ViewState<EditProfileView, EditProfileContro
                     initialValue: controller.profileModel.value.bankName,
                     onChange: (text){
                       controller.bankName(text);
-                      print(controller.bankName.value);
                     }
                 ),
                 textFormField(
