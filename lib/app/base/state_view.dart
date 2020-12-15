@@ -126,7 +126,6 @@ abstract class ViewState<Page extends View, Con extends Controller>
   void onDetached() {}
 
   @override
-  @nonVirtual
   void initState() {
     WidgetsBinding.instance.addObserver(this);
     initViewState(controller);
