@@ -4,7 +4,7 @@ import 'package:flutter_base/data/storage/hive_storage.dart';
 import 'package:flutter_base/domain/entities/error_model.dart';
 
 abstract class NetworkManagerInterFace {
-  Future<dynamic> requestApi<T>({
+  Future<T> requestApi<T>({
     @required String path,
     @required String method,
     data,
@@ -26,7 +26,7 @@ class NetworkManager implements NetworkManagerInterFace {
 
 
   @override
-  Future<dynamic> requestApi<T>({String path,
+  Future<T> requestApi<T>({String path,
     String method,
     data,
     Map<String, dynamic> queryParameters,
