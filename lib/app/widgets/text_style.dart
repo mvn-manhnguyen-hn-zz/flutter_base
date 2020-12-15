@@ -89,7 +89,7 @@ class Style {
 
   static final article0TextStyle = baseTextStyle.copyWith(
       color: black60,
-      fontSize: 16.0,
+      fontSize: 20.0,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.25);
 
