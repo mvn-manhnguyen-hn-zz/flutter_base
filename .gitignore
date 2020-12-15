@@ -63,6 +63,7 @@ pubspec.lock
 **/ios/Flutter/app.zip
 **/ios/Flutter/flutter_assets/
 /ios/Flutter/.last_build_id
+/ios/Podfile.lock
 #**/ios/ServiceDefinitions.json
 #**/ios/Runner/GeneratedPluginRegistrant.*
 
