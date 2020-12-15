@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/data/network/repositories/shop_repository.dart';
+import 'package:flutter_base/domain/entities/error_model.dart';
 import 'package:flutter_base/domain/entities/shop_model.dart';
 import 'package:get/get.dart';
 
@@ -28,6 +29,9 @@ class HomeController extends Controller {
         callback?.call();
       },
       onError: (err) {
+        if(err is ErrorModel){
+          // TODO: callbackError
+        }
         status(Status.error);
       },
     );
