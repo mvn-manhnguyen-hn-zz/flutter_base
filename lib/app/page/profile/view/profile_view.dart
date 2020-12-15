@@ -37,7 +37,7 @@ class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
                         Routes.EDITPROFILE,
                         arguments: controller.information.value
                     );
-                    if (result == 'true') controller.fetchInformation();
+                    if (result) controller.fetchInformation();
                   }
               )
             ],
