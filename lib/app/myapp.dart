@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       initialBinding: MainBinding(),
       debugShowCheckedModeBanner: false,
       enableLog: true,
-      initialRoute: token !=null ? Routes.HOME : AppPages.INITIAL ,
+      initialRoute: Routes.HOME  ,
       getPages: AppPages.routes,
       smartManagement: SmartManagement.keepFactory,
     );

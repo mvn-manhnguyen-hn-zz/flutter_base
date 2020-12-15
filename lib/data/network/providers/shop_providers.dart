@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_base/data/network/api_constant.dart';
 import 'package:flutter_base/data/network/network_manager.dart';
 import 'package:flutter_base/data/network/repositories/shop_repository.dart';
@@ -16,9 +15,9 @@ class ShopProviders implements ShopRepository {
           path: ApiConstant.SHOPS,
           method: HttpMethodConstant.GET,
           usingUserToken: true);
-      return (response.data as List).map((e) => ShopModel.fromJson(e)).toList();
-    } on DioError catch (e) {
-      return Future.error(e.response.data);
+      return (response as List).map((e) => ShopModel.fromJson(e)).toList();
+    } catch (e) {
+      throw e;
     }
   }
 }
