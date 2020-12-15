@@ -7,9 +7,12 @@ import 'app/myapp.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  GestureBinding.instance.resamplingEnabled = true; 
+  GestureBinding.instance.resamplingEnabled = true;
   await HiveStorage.openBox();
   final token = await HiveStorage.getToken();
-  runApp(MyApp(token: token,));
-}
+  print(("tokennnnn$token"));
+  runApp(MyApp(
+    token: token,
+  ));
 
+}
