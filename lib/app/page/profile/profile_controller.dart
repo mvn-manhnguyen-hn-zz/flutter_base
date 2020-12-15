@@ -10,7 +10,6 @@ class ProfileController extends Controller {
   final ProfileInterface profileInterface;
   final Rx<ProfileModel> information = Rx<ProfileModel>();
   final Rx<String> endBankAccount = Rx<String>();
-
   Future<void> fetchInformation({VoidCallback callback}) async {
     status(Status.loading);
     profileInterface.getInformation().then((value) {

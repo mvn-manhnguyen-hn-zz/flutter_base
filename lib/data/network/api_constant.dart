@@ -7,7 +7,7 @@ class ApiConstant{
   //API
   static const SHOPS = 'shops';
   static const PROFILE = 'profile';
-  static const CHANGEPROFILE = 'profile/change';
+  static const EDITPROFILE = 'profile/save';
 }
 class HeaderNetWorkConstant {
   static final BaseOptions baseOptions = BaseOptions(

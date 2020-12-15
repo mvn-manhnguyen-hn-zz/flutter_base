@@ -206,7 +206,7 @@ Widget textField(
     bool readOnly = false,
     Function() onTap,
     double padding = 12,
-    @required TextEditingController textEditingController}) {
+    TextEditingController textEditingController}) {
   return Padding(
     padding: EdgeInsets.all(padding),
     child: TextField(
@@ -223,6 +223,23 @@ Widget textField(
           prefixIcon: prefixIcon,
           prefixText: prefixText,
           suffixText: suffixText),
+    ),
+  );
+}
+Widget textFormField({
+  String initialValue,
+  String labelText,
+  Function onChange
+}){
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: TextFormField(
+      initialValue: initialValue,
+      onChanged: onChange,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: labelText
+      ),
     ),
   );
 }
