@@ -1,8 +1,9 @@
-
 import 'package:flutter_base/app/binding/home/home_binding.dart';
 import 'package:flutter_base/app/binding/login/login_binding.dart';
+import 'package:flutter_base/app/binding/product/product_binding.dart';
 import 'package:flutter_base/app/page/home/views/home_view.dart';
 import 'package:flutter_base/app/page/login/view/login.dart';
+import 'package:flutter_base/app/page/product/view/product.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
@@ -12,6 +13,11 @@ class AppPages {
   static const INITIAL = Routes.LOGIN;
 
   static final routes = [
+    GetPage(
+      name: Routes.PRODUCT,
+      page: () => ProductView(),
+      binding: ProductBinding(),
+    ),
     GetPage(
       name: Routes.HOME,
       page: () => HomeView(),

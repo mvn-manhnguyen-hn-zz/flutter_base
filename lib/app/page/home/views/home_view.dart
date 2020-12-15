@@ -15,7 +15,6 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
   void initState() {
     super.initState();
     controller.fetchListShop();
-
   }
 
   @override
@@ -38,9 +37,7 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                     itemBuilder: (context, index) {
                       return Text(controller.listShop[index].name);
                     })),
-            loading(
-                status: controller.status.value,
-                context: context)
+            loading(status: controller.status.value, context: context)
           ],
         ));
   }

@@ -13,7 +13,6 @@ class Login extends View {
 }
 
 class _LoginState extends ViewState<Login, LoginController> {
-
   Future<void> _scanQuery() async {
     final tempResultBarCode = await FlutterBarcodeScanner.scanBarcode(
         '#004297', 'Cancel', true, ScanMode.QR);
@@ -50,7 +49,7 @@ class _LoginState extends ViewState<Login, LoginController> {
             onPressed: () async {
               await _scanQuery();
               controller.fetchDataFromApi(action: () {
-                Get.offNamed(Routes.HOME);
+                Get.offNamed(Routes.PRODUCT);
               });
             },
           ),

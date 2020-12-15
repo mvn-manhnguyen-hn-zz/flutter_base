@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   intl:
   get:
-  dio:
+  dio: 
   google_fonts:
   hive:
   hive_flutter:
