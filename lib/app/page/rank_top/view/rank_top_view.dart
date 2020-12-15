@@ -28,9 +28,7 @@ class _RankTopViewState extends ViewState<RankTopView, RankTopController> {
             centerTitle: true,
             title: Text('Xếp hạng'),
           ),
-          body: controller.thisArg == null ?
-          Container() :
-          ListView.builder(
+          body: ListView.builder(
               itemCount: controller.thisArg.value.length,
               itemBuilder: (context, index){
                 return ListTile(
