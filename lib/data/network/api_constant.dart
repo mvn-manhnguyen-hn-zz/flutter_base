@@ -6,8 +6,13 @@ class ApiConstant {
 
   //API
   static const SHOPS = 'shops';
+
+  static const PRODUCTS = 'products/foruser';
+  static const CATEGORY = 'categories/product';
+
   static const PROFILE = 'profile';
   static const SETTINGS = 'settings';
+
 }
 
 class HeaderNetWorkConstant {
@@ -28,6 +33,7 @@ class HeaderNetWorkConstant {
     int receiveTimeout = 60000,
   }) async {
     final token = await HiveStorage.getToken();
+
     return Options(
         sendTimeout: sendTimeout,
         receiveTimeout: receiveTimeout,

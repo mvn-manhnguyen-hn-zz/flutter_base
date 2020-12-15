@@ -49,7 +49,9 @@ class _LoginState extends ViewState<Login, LoginController> {
             onPressed: () async {
               await _scanQuery();
               controller.fetchDataFromApi(action: () {
+
                 Get.offNamed(Routes.HOME);
+
               });
             },
           ),

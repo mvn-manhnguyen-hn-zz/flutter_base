@@ -4,6 +4,7 @@ import 'package:flutter_base/data/storage/hive_storage.dart';
 
 import 'app/myapp.dart';
 
+
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GestureBinding.instance.resamplingEnabled = true;
@@ -13,4 +14,5 @@ main() async {
   runApp(MyApp(
     token: token,
   ));
+
 }

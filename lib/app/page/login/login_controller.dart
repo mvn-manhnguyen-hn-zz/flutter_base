@@ -4,6 +4,7 @@ import 'package:flutter_base/data/storage/hive_storage.dart';
 
 import 'package:get/get.dart';
 
+
 class LoginController extends Controller {
   LoginController();
 
@@ -26,6 +27,7 @@ class LoginController extends Controller {
   //   });
   // }
 
+
   /// fetch cases from Api
   Future<void> fetchDataFromApi({VoidCallback action}) async {
     /// When the repository returns the value, change the status to success,
@@ -41,11 +43,14 @@ class LoginController extends Controller {
     //   (data) async {
     //
     //   },
+
     print("tokenn ${token}");
+
     await HiveStorage.persistToken(token[1]);
 
     status(Status.success);
     action?.call();
+
 
     /// In case of error, print the error and change the status
     /// to Status.error
@@ -53,6 +58,7 @@ class LoginController extends Controller {
     //   print("$err");
     //   status(Status.error);
     // },
+
     // );
   }
 }
