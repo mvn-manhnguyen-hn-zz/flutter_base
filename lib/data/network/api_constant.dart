@@ -8,6 +8,7 @@ class ApiConstant{
   static const SHOPS = 'shops';
   static const PROFILE = 'profile';
   static const EDITPROFILE = 'profile/save';
+  static const RANKTOP = 'rank/top';
 }
 class HeaderNetWorkConstant {
   static final BaseOptions baseOptions = BaseOptions(
