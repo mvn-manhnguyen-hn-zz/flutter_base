@@ -1,15 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_base/data/storage/hive_storage.dart';
 
-class ApiConstant{
-  static const  BASE_URL = 'https://demo.shopmede.com/api/';
+class ApiConstant {
+  static const BASE_URL = 'https://demo.shopmede.com/api/';
 
   //API
   static const SHOPS = 'shops';
+
+  static const PRODUCTS = 'products/foruser';
+  static const CATEGORY = 'categories/product';
+
   static const PROFILE = 'profile';
+  static const SETTINGS = 'settings';
+
   static const EDITPROFILE = 'profile/save';
   static const RANKTOP = 'rank/top';
 }
+
 class HeaderNetWorkConstant {
   static final BaseOptions baseOptions = BaseOptions(
       baseUrl: ApiConstant.BASE_URL,
@@ -28,6 +35,7 @@ class HeaderNetWorkConstant {
     final int receiveTimeout = 60000,
   }) async {
     final token = await HiveStorage.getToken();
+
     return Options(
         sendTimeout: sendTimeout,
         receiveTimeout: receiveTimeout,

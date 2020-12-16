@@ -43,16 +43,22 @@ class LoginController extends Controller {
     //   (data) async {
     //
     //   },
+
+    print("tokenn ${token}");
+
     await HiveStorage.persistToken(token[1]);
 
     status(Status.success);
     action?.call();
-      /// In case of error, print the error and change the status
-      /// to Status.error
-      // onError: (err) {
-      //   print("$err");
-      //   status(Status.error);
-      // },
+
+
+    /// In case of error, print the error and change the status
+    /// to Status.error
+    // onError: (err) {
+    //   print("$err");
+    //   status(Status.error);
+    // },
+
     // );
   }
 }

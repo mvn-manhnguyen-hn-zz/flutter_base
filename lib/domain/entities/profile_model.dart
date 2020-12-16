@@ -14,17 +14,17 @@ class ProfileModel {
 
   ProfileModel(
       {this.id,
-        this.name,
-        this.facebookNickname,
-        this.phone,
-        this.avatar,
-        this.bankName,
-        this.branchName,
-        this.bankAccount,
-        this.bankOwnerAccount,
-        this.role,
-        this.nicknames,
-        this.createdAt});
+      this.name,
+      this.facebookNickname,
+      this.phone,
+      this.avatar,
+      this.bankName,
+      this.branchName,
+      this.bankAccount,
+      this.bankOwnerAccount,
+      this.role,
+      this.nicknames,
+      this.createdAt});
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

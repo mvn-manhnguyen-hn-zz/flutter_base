@@ -13,7 +13,6 @@ class Login extends View {
 }
 
 class _LoginState extends ViewState<Login, LoginController> {
-
   Future<void> _scanQuery() async {
     final tempResultBarCode = await FlutterBarcodeScanner.scanBarcode(
         '#004297', 'Cancel', true, ScanMode.QR);
@@ -23,7 +22,6 @@ class _LoginState extends ViewState<Login, LoginController> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
