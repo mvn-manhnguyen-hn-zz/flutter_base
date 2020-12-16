@@ -28,6 +28,7 @@ final Color blackTwo = Color(0xFF1a1a1a);
 final Color greyishBrownTwo = Color(0xFF525252);
 final Color iceBlue = Color(0xFFF1F2F2);
 final Color cream = Color(0xFFfffcbd);
+final Color keyColor = Color(0xff7C4DFF);
 
 const MaterialColor primary = MaterialColor(
   0xFF03A9F4,

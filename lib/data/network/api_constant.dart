@@ -1,14 +1,15 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter_base/data/storage/hive_storage.dart';
 
-class ApiConstant{
-  static const  BASE_URL = 'https://demo.shopmede.com/api/';
+class ApiConstant {
+  static const BASE_URL = 'https://demo.shopmede.com/api/';
 
   //API
   static const SHOPS = 'shops';
-
+  static const PRODUCTS = 'products/foruser';
+  static const CATEGORY = 'categories/product';
 }
+
 class HeaderNetWorkConstant {
   static final BaseOptions baseOptions = BaseOptions(
       baseUrl: ApiConstant.BASE_URL,
