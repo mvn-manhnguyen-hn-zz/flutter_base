@@ -8,5 +8,4 @@ abstract class Routes {
   static const STORE = '/home/store';
   static const LOGIN = '/login';
   static const ORDER = '/order';
-
 }

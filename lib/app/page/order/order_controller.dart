@@ -4,6 +4,7 @@ import 'package:flutter_base/domain/entities/profile_model.dart';
 import 'package:flutter_base/domain/entities/setting_model.dart';
 import 'package:flutter_base/domain/interfaces/order_interface.dart';
 import 'package:get/get.dart';
+import 'package:flutter_base/domain/entities/product_model.dart';
 
 class OrderController extends Controller {
   OrderController({@required this.orderInterface});
@@ -16,15 +17,23 @@ class OrderController extends Controller {
   final OrderInterface orderInterface;
 
   /// create a reactive status from request with initial value = loading
-
+  final listSelected = List<ProductModel>().obs;
   final listProfileCustomer = List<ProfileModel>().obs;
   final listSetting = List<String>().obs;
+  int price = 0;
   Future<void> setRadioGroupValue(val) {
     radioGroupValue(val);
   }
 
   Future<void> setTextFileValue(val) {
     nickValue(val);
+  }
+
+  int getPrice(List<ProductModel> listSelected) {
+    for (int i = 0; i < listSelected.length; i++) {
+      price += listSelected[i].price;
+    }
+    return price;
   }
 
   Future<void> getSetting() {

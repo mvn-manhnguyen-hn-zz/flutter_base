@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/home/home_controller.dart';
-
-
 import 'package:flutter_base/app/page/home/views/store_view.dart';
 
 import 'package:flutter_base/app/widgets/common_widget.dart';
@@ -34,7 +32,6 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
     setState(() {
       _selectedIndex = index;
     });
-
   }
 
   @override
@@ -42,7 +39,6 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
     return Obx(() => Stack(
           children: [
             Scaffold(
-
               body: Center(
                 child: _widgetOptions.elementAt(_selectedIndex),
               ),
@@ -73,7 +69,6 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                 onTap: _onItemTapped,
               ),
             ),
-
             loading(status: controller.status.value, context: context)
           ],
         ));

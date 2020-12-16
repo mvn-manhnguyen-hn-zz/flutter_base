@@ -36,6 +36,7 @@ class _ProductViewState extends ViewState<ProductView, ProductController> {
                     icon: Icon(Icons.close),
                     onPressed: () {
                       Get.back(result: controller.listSelected);
+                      print(controller.listSelected.length);
                     }),
                 title: Text("Sản Phẩm"),
                 centerTitle: true,
@@ -124,53 +125,54 @@ class _ProductItemState extends State<ProductItem> {
           left: 10,
         ),
         child: ListTile(
-            onTap: () {
-              //selected
-              if (controller.listSelected
-                  .contains(widget.listProduct[widget.index])) {
-                controller.listSelected.removeWhere(
-                    (item) => item == widget.listProduct[widget.index]);
-                print(controller.listSelected.length);
-                setState(() {
-                  check = false;
-                });
-              } else {
-                controller.listSelected.add(widget.listProduct[widget.index]);
-                print(controller.listSelected.length);
-                setState(() {
-                  check = true;
-                });
-              }
-            },
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    widget.listProduct[widget.index].name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: check ? Colors.white : keyColor,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Text(
-                  widget.listProduct[widget.index].price.toString() + "đ",
+          onTap: () {
+            //selected
+            if (controller.listSelected
+                .contains(widget.listProduct[widget.index])) {
+              controller.listSelected.removeWhere(
+                  (item) => item == widget.listProduct[widget.index]);
+              print(controller.listSelected.length);
+              setState(() {
+                check = false;
+              });
+            } else {
+              controller.listSelected.add(widget.listProduct[widget.index]);
+              print(controller.listSelected.length);
+              setState(() {
+                check = true;
+              });
+            }
+          },
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  widget.listProduct[widget.index].name,
                   style: TextStyle(
                     fontSize: 16,
                     color: check ? Colors.white : keyColor,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ],
-            ),
-            trailing: IconButton(
-              icon: Icon(Icons.info),
-              color: check ? Colors.white : keyColor,
-              iconSize: 25,
-              onPressed: () {},
-            )),
+              ),
+              Text(
+                widget.listProduct[widget.index].price.toString() + "đ",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: check ? Colors.white : keyColor,
+                ),
+              ),
+            ],
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.info),
+            color: check ? Colors.white : keyColor,
+            iconSize: 25,
+            onPressed: () {},
+          ),
+        ),
       ),
     );
   }

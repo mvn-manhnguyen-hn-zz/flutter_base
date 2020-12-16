@@ -5,6 +5,7 @@ import 'package:flutter_base/app/page/order/order_controller.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter_base/app/routes/app_pages.dart';
 
 class OrderView extends View {
   @override
@@ -14,6 +15,7 @@ class OrderView extends View {
 class _OrderViewState extends ViewState<OrderView, OrderController> {
   TextEditingController _controller;
   TextEditingController _controllerSetting;
+
   @override
   void initState() {
     super.initState();
@@ -166,16 +168,75 @@ class _OrderViewState extends ViewState<OrderView, OrderController> {
                     ),
                   ),
                 ),
-                Card(
-                  child: ListTile(
-                    title: Text('Sản phẩm đã chọn (sosp)',
-                        style: TextStyle(color: Color(0xff7C4DFF))),
-                    trailing: Icon(
-                      Icons.playlist_add,
-                      color: Color(0xff7C4DFF),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.PRODUCT).then(
+                      (value) {
+                        controller.listSelected.addAll(value);
+                      },
+                    );
+                  },
+                  child: Card(
+                    child: ListTile(
+                      title: Text(
+                          'Sản phẩm đã chọn:  (${controller.listSelected.length})',
+                          style: TextStyle(color: Color(0xff7C4DFF))),
+                      trailing: Icon(
+                        Icons.playlist_add,
+                        color: Color(0xff7C4DFF),
+                      ),
                     ),
                   ),
                 ),
+                controller.listSelected.length != 0
+                    ? Container(
+                        height: 200,
+                        child: ListView.builder(
+                          itemCount: controller.listSelected.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              color: Color(0xff7C4DFF),
+                              elevation: 1,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  side: BorderSide(
+                                      width: 1, color: Color(0xff7C4DFF))),
+                              child: ListTile(
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        controller.listSelected[index].name,
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.white),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Text(
+                                      controller.listSelected[index].price
+                                              .toString() +
+                                          "đ",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.info),
+                                  color: Colors.white,
+                                  iconSize: 25,
+                                  onPressed: () {},
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(),
                 Card(
                   child: TextField(
                     decoration: InputDecoration(
@@ -213,18 +274,46 @@ class _OrderViewState extends ViewState<OrderView, OrderController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [Text('Tổng tiền: '), Text('soTien đ')],
+                        children: [
+                          Text(
+                            'Tổng tiền: ',
+                            style: TextStyle(
+                                color: Color(0xff7C4DFF), fontSize: 22),
+                          ),
+                          Text(
+                            '${controller.getPrice(controller.listSelected)}đ',
+                            style: TextStyle(
+                                color: Color(0xff7C4DFF), fontSize: 22),
+                          )
+                        ],
                       ),
                     ),
                   ),
-                  Container(
-                    height: 60,
-                    color: Color(0xff7C4DFF),
-                    child: Center(
-                        child: Text(
-                      'Xác nhận',
-                      style: TextStyle(color: Colors.white),
-                    )),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) => new AlertDialog(
+                                title: new Text("Đặt hàng thành công"),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text('Đóng'),
+                                    onPressed: () {
+                                      Get.toNamed(Routes.HOME);
+                                    },
+                                  )
+                                ],
+                              ));
+                    },
+                    child: Container(
+                      height: 60,
+                      color: Color(0xff7C4DFF),
+                      child: Center(
+                          child: Text(
+                        'Xác nhận',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                    ),
                   )
                 ],
               ),
