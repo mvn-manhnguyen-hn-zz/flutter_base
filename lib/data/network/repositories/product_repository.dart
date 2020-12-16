@@ -19,7 +19,6 @@ class ProductRepository implements ProductInterface {
           .map((e) => ProductModel.fromJson(e))
           .toList();
     } on DioError catch (e) {
-      //print(e.response.data);
       return Future.error(e.response.data);
     }
   }
@@ -29,11 +28,9 @@ class ProductRepository implements ProductInterface {
     try {
       final response = await dio.get(ApiConstant.CATEGORY,
           options: await HeaderNetWorkConstant.getOptionsWithToken());
-      //print(response.data);
 
       return (response.data as List<dynamic>).map((e) => e.toString()).toList();
     } on DioError catch (e) {
-      //print(e.response.data);
       return Future.error(e.response.data);
     }
   }

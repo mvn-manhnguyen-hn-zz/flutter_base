@@ -24,12 +24,12 @@ class ProductController extends Controller {
 
     productInterface.getListProduct().then(
       (data) {
-        listProductFromAPI.clear();
-        listProductFromAPI.addAll(data);
         listProduct.clear();
         listProduct.addAll(data);
+        listProductFromAPI.clear();
+        listProductFromAPI.addAll(data);
+
         status(Status.success);
-        //print(status);
         callback?.call();
       },
       onError: (err) {
@@ -43,18 +43,29 @@ class ProductController extends Controller {
 
     productInterface.getListCategory().then(
       (data) {
-        //print(data.toList());
         listCategory.clear();
         listCategory.addAll(data);
         status(Status.success);
-        //print(status);
         callback?.call();
       },
       onError: (err) {
         status(Status.error);
-        print("=======" + err.toString());
       },
     );
+  }
+
+  sortByCategory() {
+    if (listSort.length > 0) {
+      listProduct.clear();
+      listProductFromAPI.forEach((productItem) {
+        if (listSort.contains(productItem.categoryName)) {
+          listProduct.add(productItem);
+        }
+      });
+    } else {
+      listProduct.clear();
+      listProduct.addAll(listProductFromAPI);
+    }
   }
 
   addToListSelected(ProductModel item) {

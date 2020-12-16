@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/product/product_controller.dart';
@@ -13,6 +12,10 @@ class ProductView extends View {
 }
 
 class _ProductViewState extends ViewState<ProductView, ProductController> {
+  List<Widget> toListWidget(List<String> list) {
+    return (list.map((item) => CategoryItem(item: item)).toList());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -28,82 +31,61 @@ class _ProductViewState extends ViewState<ProductView, ProductController> {
 
   @override
   Widget buildPage(BuildContext context) {
-    //controller.initListCheck(controller.listProduct.length);
-    return Obx(() => Stack(
-          children: [
-            Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      Get.back(result: controller.listSelected);
-                    }),
-                title: Text("Sản Phẩm"),
-                centerTitle: true,
-                backgroundColor: keyColor,
-              ),
-              body: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Danh mục sản phẩm (${controller.listProduct.length})",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: keyColor,
-                              fontWeight: FontWeight.bold),
+    return Obx(() {
+      return Stack(
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Get.back(result: controller.listSelected);
+                  }),
+              title: Text("Sản Phẩm"),
+              centerTitle: true,
+              backgroundColor: keyColor,
+            ),
+            body: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Danh mục sản phẩm (${controller.listProduct.length})",
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: keyColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.filter_alt_outlined,
+                          size: 30,
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.filter_alt_outlined,
-                            size: 30,
-                          ),
-                          color: keyColor,
-                          onPressed: () {
-                            //filter
-                            //print(controller.listCategory.toList());
-                            controller.listSort.clear();
-                            showModalBottomSheet(
-                                context: this.context,
-                                builder: (BuildContext bc) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                    ),
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      physics: ScrollPhysics(),
-                                      itemCount: controller.listCategory.length,
-                                      itemBuilder: (context, index) {
-                                        return CategoryItem(
-                                          item: controller.listCategory[index],
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }).then(
-                              (value) {
-                                controller.listProduct.clear();
-                                controller.listProductFromAPI
-                                    .forEach((productItem) {
-                                  if (controller.listSort
-                                      .contains(productItem.categoryName)) {
-                                    controller.listProduct.add(productItem);
-                                  }
-                                });
-                              },
-                            );
-                          },
-                        )
-                      ],
-                    ),
+                        color: keyColor,
+                        onPressed: () {
+                          controller.listSort.clear();
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: this.context,
+                              builder: (BuildContext bc) {
+                                return Wrap(
+                                    children:
+                                        toListWidget(controller.listCategory));
+                              }).then(
+                            (value) {
+                              controller.sortByCategory();
+                            },
+                          );
+                        },
+                      )
+                    ],
                   ),
-                  ListView.builder(
+                ),
+                Expanded(
+                  child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
@@ -112,12 +94,14 @@ class _ProductViewState extends ViewState<ProductView, ProductController> {
                       return ProductItem(item: controller.listProduct[index]);
                     },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            loading(status: controller.status.value, context: context)
-          ],
-        ));
+          ),
+          loading(status: controller.status.value, context: context)
+        ],
+      );
+    });
   }
 }
 
@@ -150,17 +134,14 @@ class _ProductItemState extends State<ProductItem> {
         ),
         child: ListTile(
             onTap: () {
-              //selected
               if (controller.listSelected.contains(widget.item)) {
                 controller.listSelected
                     .removeWhere((item) => item == widget.item);
-                print(controller.listSelected.length);
                 setState(() {
                   check = false;
                 });
               } else {
                 controller.listSelected.add(widget.item);
-                print(controller.listSelected.length);
                 setState(() {
                   check = true;
                 });
@@ -214,18 +195,16 @@ class _CategoryItemState extends State<CategoryItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
         onTap: () {
           if (controller.listSort.contains(widget.item)) {
             controller.listSort.removeWhere((item) => item == widget.item);
-            print(controller.listSort.length);
             setState(() {
               check = false;
             });
           } else {
             controller.listSort.add(widget.item);
-            print(controller.listSort.length);
             setState(() {
               check = true;
             });
@@ -237,14 +216,17 @@ class _CategoryItemState extends State<CategoryItem> {
             border: Border.all(color: keyColor),
             color: check ? keyColor : Colors.white,
           ),
-          child: Text(
-            widget.item,
-            maxLines: 1,
-            style: new TextStyle(
-              fontSize: 16,
-              color: check ? Colors.white : keyColor,
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Text(
+              widget.item,
+              maxLines: 1,
+              style: new TextStyle(
+                fontSize: 16,
+                color: check ? Colors.white : keyColor,
+              ),
+              overflow: TextOverflow.fade,
             ),
-            overflow: TextOverflow.fade,
           ),
           // child: AutoSizeText.rich(
           //   TextSpan(text: widget.item),
