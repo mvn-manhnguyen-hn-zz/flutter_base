@@ -28,7 +28,6 @@ class ProductRepository implements ProductInterface {
     try {
       final response = await dio.get(ApiConstant.CATEGORY,
           options: await HeaderNetWorkConstant.getOptionsWithToken());
-
       return (response.data as List<dynamic>).map((e) => e.toString()).toList();
     } on DioError catch (e) {
       return Future.error(e.response.data);

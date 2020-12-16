@@ -16,9 +16,9 @@ class HomeController extends Controller {
 
   final listShop = List<ShopModel>().obs;
 
+
   Future<void> fetchListShop({VoidCallback callback}) async {
     status(Status.loading);
-
      shopInterface.getListShop().then(
       (data) {
         listShop.clear();

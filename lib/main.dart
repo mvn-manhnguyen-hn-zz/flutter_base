@@ -10,6 +10,9 @@ main() async {
   GestureBinding.instance.resamplingEnabled = true;
   await HiveStorage.openBox();
   final token = await HiveStorage.getToken();
-  runApp(MyApp(token: token,));
-}
+  print(("tokennnnn$token"));
+  runApp(MyApp(
+    token: token,
+  ));
 
+}

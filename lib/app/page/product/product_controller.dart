@@ -18,6 +18,8 @@ class ProductController extends Controller {
   final listSelected = List<ProductModel>().obs;
   final listCategory = List<String>().obs;
   final listSort = List<String>().obs;
+  var listCheck = List<bool>().obs;
+  RxBool check = false.obs;
 
   Future<void> fetchListProduct({VoidCallback callback}) async {
     status(Status.loading);
@@ -28,7 +30,6 @@ class ProductController extends Controller {
         listProduct.addAll(data);
         listProductFromAPI.clear();
         listProductFromAPI.addAll(data);
-
         status(Status.success);
         callback?.call();
       },
@@ -46,6 +47,7 @@ class ProductController extends Controller {
         listCategory.clear();
         listCategory.addAll(data);
         status(Status.success);
+        print(status);
         callback?.call();
       },
       onError: (err) {
