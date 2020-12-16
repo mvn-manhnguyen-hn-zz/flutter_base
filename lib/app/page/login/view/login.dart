@@ -21,14 +21,7 @@ class _LoginState extends ViewState<Login, LoginController> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    //controller.checkIfIsLogged();
-  }
-
-  @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -49,9 +42,7 @@ class _LoginState extends ViewState<Login, LoginController> {
             onPressed: () async {
               await _scanQuery();
               controller.fetchDataFromApi(action: () {
-
                 Get.offNamed(Routes.HOME);
-
               });
             },
           ),

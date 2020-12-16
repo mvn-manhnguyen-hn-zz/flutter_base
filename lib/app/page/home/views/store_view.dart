@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/home/home_controller.dart';
-import 'package:flutter_base/app/page/order/views/order_view.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
-import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:get/get.dart';
 
 class StoreView extends View {
@@ -21,7 +19,6 @@ class _StoreViewState extends ViewState<StoreView, HomeController> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -63,7 +60,6 @@ class _StoreViewState extends ViewState<StoreView, HomeController> {
                 },
               ),
             ),
-            //loading(status: controller.status.value, context: context)
           ],
         ));
   }

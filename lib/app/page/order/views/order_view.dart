@@ -4,7 +4,6 @@ import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/order/order_controller.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
 
 class OrderView extends View {

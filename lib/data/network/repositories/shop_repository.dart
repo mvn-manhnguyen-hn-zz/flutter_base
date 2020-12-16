@@ -5,7 +5,6 @@ import 'package:flutter_base/domain/interfaces/shop_interfaces.dart';
 
 class ShopRepository implements ShopInterface {
   final Dio dio;
-
   ShopRepository({this.dio});
 
   @override

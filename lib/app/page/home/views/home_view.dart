@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/home/home_controller.dart';
-import 'package:flutter_base/app/page/home/views/store_view.dart';
 
+import 'package:flutter_base/app/page/home/views/store_view.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,6 @@ class HomeView extends View {
 }
 
 class _HomeViewState extends ViewState<HomeView, HomeController> {
-  @override
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     StoreView(),

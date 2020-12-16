@@ -41,7 +41,7 @@ class PaymentMethods {
 class FeeShopee {
   FeeShopee();
 
-  FeeShopee.fromJson(Map<String, dynamic> json) {}
+  FeeShopee.fromJson(Map<String, dynamic> json);
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

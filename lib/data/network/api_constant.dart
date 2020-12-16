@@ -13,6 +13,8 @@ class ApiConstant {
   static const PROFILE = 'profile';
   static const SETTINGS = 'settings';
 
+  static const EDITPROFILE = 'profile/save';
+  static const RANKTOP = 'rank/top';
 }
 
 class HeaderNetWorkConstant {
@@ -28,9 +30,9 @@ class HeaderNetWorkConstant {
       });
 
   static Future<Options> getOptionsWithToken({
-    String accept = 'application/json',
-    int sendTimeout = 60000,
-    int receiveTimeout = 60000,
+    final String accept = 'application/json',
+    final int sendTimeout = 60000,
+    final int receiveTimeout = 60000,
   }) async {
     final token = await HiveStorage.getToken();
 

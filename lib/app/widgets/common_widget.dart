@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/controller.dart';
+import 'package:flutter_base/app/widgets/colors.dart';
 import 'package:flutter_base/app/widgets/text_style.dart';
+import 'package:flutter_base/domain/entities/profile_model.dart';
 import 'package:get/get.dart';
 
 void dialogYesNo(String title, BuildContext context, {Function() callback}) {
@@ -204,7 +206,7 @@ Widget textField(
     bool readOnly = false,
     Function() onTap,
     double padding = 12,
-    @required TextEditingController textEditingController}) {
+    TextEditingController textEditingController}) {
   return Padding(
     padding: EdgeInsets.all(padding),
     child: TextField(
@@ -222,6 +224,113 @@ Widget textField(
           prefixText: prefixText,
           suffixText: suffixText),
     ),
+  );
+}
+Widget textFormField({
+  String initialValue,
+  String labelText,
+  Function onChange
+}){
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: TextFormField(
+      initialValue: initialValue,
+      onChanged: onChange,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: labelText
+      ),
+    ),
+  );
+}
+Widget showInformation({ProfileModel profileModel, BuildContext context, String endBankAccount}){
+  return ListView(
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: boxDecoration(),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(profileModel.avatar),
+                  radius: 50,
+                ),
+                Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  children: [
+                    tableRow(textInformation('Tên'), textInformation(profileModel.name)),
+                    tableRow(textInformation('Số điện thoại'), textInformation(profileModel.phone)),
+                    tableRow(
+                      textInformation('Nick name'),
+                      ListView(
+                        shrinkWrap: true,
+                        children: profileModel.nicknames.map((e){
+                          return textInformation(e);
+                        }).toList(),
+                      )
+                    ),
+                    tableRow(
+                        textInformation('Facebook Link'),
+                        IconButton(
+                            icon: Icon(Icons.link, color: peacockBlue),
+                            onPressed: null
+                        )),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: boxDecoration(),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Table(
+                  children: [
+                    tableRow(textInformation('Tên ngân hàng'), textInformation(profileModel.bankName)),
+                    tableRow(textInformation('Chi nhánh ngân hàng'), textInformation(profileModel.branchName)),
+                    tableRow(textInformation('Tên chủ tài khoản'), textInformation(profileModel.bankOwnerAccount)),
+                    tableRow(textInformation('Tài khoản'), textInformation('***********${endBankAccount}'))
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      )
+    ],
+  );
+}
+BoxDecoration boxDecoration(){
+  return BoxDecoration(
+      border: Border.all(
+          color: Colors.blue,
+          width: 3.0
+      ),
+      borderRadius: BorderRadius.all(
+          Radius.circular(15)
+      )
+  );
+}
+TableRow tableRow(Widget widget1, Widget widget2){
+  return TableRow(
+    children: [
+      widget1, widget2
+    ]
+  );
+}
+Widget textInformation(String text){
+  return Text(
+    text,
+    style: Style.article0TextStyle.copyWith(color: peacockBlue),
   );
 }
 
