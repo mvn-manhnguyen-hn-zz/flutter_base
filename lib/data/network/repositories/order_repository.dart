@@ -39,15 +39,10 @@ class OrderRepository implements OrderInterface {
     try {
       final response = await dio.get(ApiConstant.SETTINGS,
           options: await HeaderNetWorkConstant.getOptionsWithToken());
-      // print("1111111111111${response.data}");
-      // print("1111111111111${ProfileModel.fromJson(response.data)}");
-      print(response.data);
-      print("111111111${response.statusCode}");
       completer.complete(setting.fromJson(response.data));
     } on DioError catch (e) {
       print(e.toString());
       completer.completeError(e.response.data);
-      //return Future.error(e.response.data);
     }
     return completer.future;
   }
