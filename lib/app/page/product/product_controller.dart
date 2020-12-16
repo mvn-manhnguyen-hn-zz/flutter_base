@@ -14,8 +14,10 @@ class ProductController extends Controller {
   /// create a reactive status from request with initial value = loading
 
   final listProduct = List<ProductModel>().obs;
+  final listProductFromAPI = List<ProductModel>().obs;
   final listSelected = List<ProductModel>().obs;
   final listCategory = List<String>().obs;
+  final listSort = List<String>().obs;
   var listCheck = List<bool>().obs;
   RxBool check = false.obs;
 
@@ -26,8 +28,9 @@ class ProductController extends Controller {
       (data) {
         listProduct.clear();
         listProduct.addAll(data);
+        listProductFromAPI.clear();
+        listProductFromAPI.addAll(data);
         status(Status.success);
-        //print(status);
         callback?.call();
       },
       onError: (err) {
@@ -41,7 +44,6 @@ class ProductController extends Controller {
 
     productInterface.getListCategory().then(
       (data) {
-        print(data.toList());
         listCategory.clear();
         listCategory.addAll(data);
         status(Status.success);
@@ -50,13 +52,30 @@ class ProductController extends Controller {
       },
       onError: (err) {
         status(Status.error);
-        print("=======" + err.toString());
       },
     );
   }
 
+  sortByCategory() {
+    if (listSort.length > 0) {
+      listProduct.clear();
+      listProductFromAPI.forEach((productItem) {
+        if (listSort.contains(productItem.categoryName)) {
+          listProduct.add(productItem);
+        }
+      });
+    } else {
+      listProduct.clear();
+      listProduct.addAll(listProductFromAPI);
+    }
+  }
+
   addToListSelected(ProductModel item) {
     listSelected.add(item);
+  }
+
+  addToListSort(String item) {
+    listSort.add(item);
   }
 
   @override

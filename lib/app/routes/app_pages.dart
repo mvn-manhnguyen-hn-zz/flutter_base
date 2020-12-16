@@ -1,29 +1,18 @@
 import 'package:flutter_base/app/binding/home/home_binding.dart';
 import 'package:flutter_base/app/binding/login/login_binding.dart';
-
 import 'package:flutter_base/app/binding/product/product_binding.dart';
 import 'package:flutter_base/app/page/home/views/home_view.dart';
 import 'package:flutter_base/app/page/login/view/login.dart';
-import 'package:flutter_base/app/page/product/view/product.dart';
-
+import 'package:flutter_base/app/page/product/view/product_view.dart';
 import 'package:flutter_base/app/binding/order/order_binding.dart';
-
 import 'package:flutter_base/app/page/home/views/store_view.dart';
-import 'package:flutter_base/app/page/home/views/home_view.dart';
-import 'package:flutter_base/app/page/login/view/login.dart';
 import 'package:flutter_base/app/page/order/views/order_view.dart';
-
 import 'package:flutter_base/app/binding/edit_profile/edit_profile_binding.dart';
-import 'package:flutter_base/app/binding/home/home_binding.dart';
-import 'package:flutter_base/app/binding/login/login_binding.dart';
 import 'package:flutter_base/app/binding/profile/profile_binding.dart';
 import 'package:flutter_base/app/binding/rank_top/rank_top_binding.dart';
 import 'package:flutter_base/app/page/editProfile/view/change_profile_view.dart';
-import 'package:flutter_base/app/page/home/views/home_view.dart';
-import 'package:flutter_base/app/page/login/view/login.dart';
 import 'package:flutter_base/app/page/profile/view/profile_view.dart';
 import 'package:flutter_base/app/page/rank_top/view/rank_top_view.dart';
-
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
