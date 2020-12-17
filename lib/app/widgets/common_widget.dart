@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/controller.dart';
+import 'file:///C:/Users/Bui%20Van%20Long/Documents/flutter_base/lib/app/page/home/views/shop_view.dart';
 import 'package:flutter_base/app/widgets/colors.dart';
 import 'package:flutter_base/app/widgets/text_style.dart';
 import 'package:flutter_base/domain/entities/profile_model.dart';
@@ -229,13 +230,15 @@ Widget textField(
 Widget textFormField({
   String initialValue,
   String labelText,
-  Function onChange
+  Function onChange,
+  Function onTap
 }){
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: TextFormField(
       initialValue: initialValue,
       onChanged: onChange,
+      onTap: onTap,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         labelText: labelText
@@ -333,7 +336,34 @@ Widget textInformation(String text){
     style: Style.article0TextStyle.copyWith(color: peacockBlue),
   );
 }
-
+Widget listTitle({@required String title, Function onPressed}) {
+  return ListTile(
+    title: Text(
+        title,
+      style: Style.h7TextStyle.copyWith(color: cerulean),
+    ),
+    trailing: IconButton(
+      icon: Icon(Icons.playlist_add, color: cerulean, size: 26),
+      onPressed: onPressed,
+    ),
+  );
+}
+Widget shopView(){
+  return ShopView();
+}
+Widget radioListTitle({
+  @required String value,
+  @required String groupValue,
+  @required Function onChange
+}){
+  return RadioListTile(
+    value: value,
+    groupValue: groupValue,
+    title: textInformation(value),
+    onChanged: onChange,
+    activeColor: Colors.redAccent,
+  );
+}
 clearFocus(BuildContext context) {
   if (FocusScope.of(context).hasFocus) {
     FocusScope.of(context).unfocus();
