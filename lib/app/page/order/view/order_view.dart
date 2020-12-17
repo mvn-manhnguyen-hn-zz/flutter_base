@@ -13,32 +13,6 @@ class OrderView extends View {
 }
 
 class _OrderViewState extends ViewState<OrderView, OrderController> {
-  void getWidget({
-    @required List<String> list,
-    @required RxString selectedValue,
-    @required RxBool show
-}){
-    Get.bottomSheet(
-        Container(
-          width: double.infinity,
-          color: white,
-          child: ListView.builder(
-              itemCount: list.length,
-              itemBuilder: (context, index){
-                return Obx(() => radioListTitle(
-                    value: list[index],
-                    groupValue: selectedValue.value,
-                    onChange: (value) {
-                      selectedValue(value);
-                      show(true);
-                      Get.back();
-                    }
-                ));
-              }
-          ),
-        )
-    );
-  }
   @override
   void initState() {
     controller.fetchInformation();
@@ -52,14 +26,6 @@ class _OrderViewState extends ViewState<OrderView, OrderController> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Đặt hàng'),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.local_convenience_store),
-              onPressed: () {
-                print(controller.listPaymentMethods);
-              }
-          )
-        ],
       ),
       body: Stack(
         children: [
@@ -70,7 +36,7 @@ class _OrderViewState extends ViewState<OrderView, OrderController> {
                   onPressed: (){
                     controller.showAccount.value ?
                     controller.showAccount(false) :
-                    getWidget(
+                    controller.getWidget(
                         list: controller.nicknames.value,
                         selectedValue: controller.selectedAccount,
                         show: controller.showAccount
@@ -82,7 +48,7 @@ class _OrderViewState extends ViewState<OrderView, OrderController> {
                   initialValue: controller.selectedAccount.value,
                   onTap: () {
                     controller.showAccount(false);
-                    getWidget(
+                    controller.getWidget(
                         list: controller.nicknames.value,
                         selectedValue: controller.selectedAccount,
                         show: controller.showAccount
@@ -95,7 +61,7 @@ class _OrderViewState extends ViewState<OrderView, OrderController> {
                 onPressed: (){
                   controller.showPaymentMethod.value ?
                   controller.showPaymentMethod(false) :
-                  getWidget(
+                  controller.getWidget(
                       list: controller.listPaymentMethods,
                       selectedValue: controller.selectedPaymentMethods,
                       show: controller.showPaymentMethod
@@ -107,7 +73,7 @@ class _OrderViewState extends ViewState<OrderView, OrderController> {
                   initialValue: controller.selectedPaymentMethods.value,
                   onTap: () {
                     controller.showPaymentMethod(false);
-                    getWidget(
+                    controller.getWidget(
                         list: controller.listPaymentMethods,
                         selectedValue: controller.selectedPaymentMethods,
                         show: controller.showPaymentMethod

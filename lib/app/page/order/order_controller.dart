@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_base/app/base/controller.dart';
+import 'package:flutter_base/app/widgets/colors.dart';
+import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/domain/interfaces/order_interface.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class OrderController extends Controller {
@@ -37,6 +40,33 @@ class OrderController extends Controller {
       onError: (err) {
         status(Status.error);
       },
+    );
+  }
+   getWidget({
+    @required List<String> list,
+    @required RxString selectedValue,
+    @required RxBool show
+  }) {
+    Get.bottomSheet(
+        Container(
+          width: double.infinity,
+          color: white,
+          child: ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index){
+                return Obx(() => radioListTitle(
+                    value: list[index],
+                    groupValue: selectedValue.value,
+                    onChange: (value) async {
+                      selectedValue(value);
+                      await Future.delayed(Duration(seconds: 2));
+                      show(true);
+                      Get.back();
+                    }
+                ));
+              }
+          ),
+        )
     );
   }
 }
