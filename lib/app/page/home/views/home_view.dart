@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/home/home_controller.dart';
-import 'package:flutter_base/app/routes/app_pages.dart';
-import 'package:flutter_base/app/widgets/common_widget.dart';
+import 'package:flutter_base/app/page/home/views/profile_view.dart';
+import 'package:flutter_base/app/page/home/views/rank_top_view.dart';
+import 'package:flutter_base/app/page/home/views/shop_view.dart';
+import 'package:flutter_base/app/widgets/colors.dart';
 import 'package:get/get.dart';
 
 class HomeView extends View {
@@ -12,30 +14,47 @@ class HomeView extends View {
 }
 
 class _HomeViewState extends ViewState<HomeView, HomeController> {
-  @override
-  void initState() {
-    super.initState();
-    controller.fetchListShop();
-  }
+  final List<Widget> _widgetOptions = <Widget>[
+    ShopView(),
+    Text(
+      'Index 2: Đơn hàng',
+    ),
+    RankTopView(),
+    ProfileView()
+  ];
 
   @override
   Widget buildPage(context) {
-    return Obx(() => Stack(
-          children: [
-            Scaffold(
-                appBar: AppBar(
-                  centerTitle: true,
-                  title: Text('Title tu sua nhe'),
-                ),
-                body: ListView.builder(
-                    itemCount: controller.listShop.length,
-                    itemBuilder: (context, index) {
-                      return Text(controller.listShop[index].name);
-                    })),
-            loading(
-                status: controller.status.value,
-                context: context)
-          ],
-        ));
+    return Obx(() => Scaffold(
+      body: Center(
+        child: _widgetOptions.elementAt(controller.selectIndex.value),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Cửa hàng',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.article_outlined),
+            label: 'Đơn hàng',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.apartment_outlined),
+            label: 'Xếp hạng',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_outlined),
+            label: 'Cá nhân',
+          ),
+        ],
+        currentIndex: controller.selectIndex.toInt(),
+        selectedItemColor: butterscotch,
+        onTap: (index){
+          controller.onItemTapped(index);
+        },
+        type: BottomNavigationBarType.fixed,
+      ),
+    ));
   }
 }

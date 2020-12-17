@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
-import 'package:flutter_base/app/page/profile/profile_controller.dart';
+import 'package:flutter_base/app/page/home/home_controller.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:get/get.dart';
@@ -12,13 +12,12 @@ class ProfileView extends View {
   _ProfileViewState createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
+class _ProfileViewState extends ViewState<ProfileView, HomeController> {
   @override
   void initState() {
     controller.fetchInformation();
     super.initState();
   }
-
 
   @override
   Widget buildPage(BuildContext context) {

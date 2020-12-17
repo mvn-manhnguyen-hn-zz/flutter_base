@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // ignore: implementation_imports
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base/app/base/state_view.dart';
-import 'package:flutter_base/app/page/rank_top/rank_top_controller.dart';
+import 'package:flutter_base/app/page/home/home_controller.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ class RankTopView extends View {
   _RankTopViewState createState() => _RankTopViewState();
 }
 
-class _RankTopViewState extends ViewState<RankTopView, RankTopController> {
+class _RankTopViewState extends ViewState<RankTopView, HomeController> {
   @override
   void initState() {
     controller.fetchRankTopData();
@@ -29,14 +29,14 @@ class _RankTopViewState extends ViewState<RankTopView, RankTopController> {
             title: Text('Xếp hạng'),
           ),
           body: ListView.builder(
-              itemCount: controller.thisArg.value.length,
+              itemCount: controller.thisArg.length,
               itemBuilder: (context, index){
                 return ListTile(
-                  leading: textInformation(index.toString()),
+                  leading: textInformation((index + 1).toString()),
                   title: textInformation(
-                      controller.thisArg.value[index].name.toString()
+                      controller.thisArg[index].name.toString()
                   ),
-                  subtitle: textInformation(controller.thisArg.value[index].total.toString()),
+                  subtitle: textInformation(controller.thisArg[index].total.toString()),
                 );
               }
           ),
