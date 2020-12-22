@@ -15,8 +15,8 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
   void initState() {
     super.initState();
     controller.fetchListShop();
-
   }
+  //abcdefdfdfdfdfdhf
 
   @override
   void dispose() {
