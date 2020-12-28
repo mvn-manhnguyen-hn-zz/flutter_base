@@ -33,22 +33,12 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dart-dependencies-{{ checksum "pubspec.lock" }}
-            - dart-dependencies-
-      - run:
-          name: Install Dependencies
-          command: flutter pub get
-      - run:
-          name: Build
-          command: flutter packages pub run build_runner build
-      - save_cache:
-          paths:
-            - .dart_tool
-          key: dart-dependencies-{{ checksum "pubspec.lock" }}
       - run:
           name: Run tests
           command: flutter test
 workflows:
     jobs:
+      - lint
+      - test:
+          requires:
+            - lint
