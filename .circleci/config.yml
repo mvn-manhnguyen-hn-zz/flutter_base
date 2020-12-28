@@ -6,8 +6,8 @@ defaults: &defaults
     - image: cirrusci/flutter:v1.10.7
   working_directory: ~/repo
 jobs:
-  lint:
-    description: "Run static analysis for Flutter"
+  lint_and_test:
+    description: "Run static analysis and test for Flutter"
     <<: *defaults
     steps:
       - checkout
@@ -28,17 +28,6 @@ jobs:
       - run:
           name: Analyze code
           command: flutter analyze lib
-  test:
-    description: "Run tests for Flutter"
-    <<: *defaults
-    steps:
-      - checkout
       - run:
           name: Run tests
           command: flutter test
-workflows:
-    jobs:
-      - lint
-      - test:
-          requires:
-            - lint
