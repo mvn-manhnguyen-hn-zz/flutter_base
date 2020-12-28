@@ -4,7 +4,7 @@ version: 2.1
 defaults: &defaults
   docker:
     - image: cirrusci/flutter:v1.10.7
-    working_directory: ~/repo
+  working_directory: ~/repo
 jobs:
   lint:
     description: "Run static analysis for Flutter"
