@@ -5,7 +5,7 @@ defaults: &defaults
   docker:
     - image: cirrusci/flutter:v1.10.7
 jobs:
-  lint_and_test:
+  build:
     <<: *defaults
     steps:
       - checkout
