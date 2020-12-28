@@ -50,3 +50,7 @@ jobs:
       - run:
           name: Run tests
           command: flutter test
+workflows:
+    jobs:
+      - lint:
+      - test:
