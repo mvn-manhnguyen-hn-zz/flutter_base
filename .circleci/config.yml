@@ -4,10 +4,8 @@ version: 2.1
 defaults: &defaults
   docker:
     - image: cirrusci/flutter:v1.10.7
-  working_directory: ~/repo
 jobs:
   lint_and_test:
-    description: "Run static analysis and test for Flutter"
     <<: *defaults
     steps:
       - checkout
