@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
+import 'package:flutter_base/app/routes/app_routes.dart';
 import 'package:get/get.dart';
 import 'binding/main_binding.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       initialBinding: MainBinding(),
       debugShowCheckedModeBanner: false,
       enableLog: true,
-      initialRoute: token !=null ? Routes.HOME : AppPages.INITIAL,
+      initialRoute: token != null ? Routes.HOME : AppPages.INITIAL,
       getPages: AppPages.routes,
       smartManagement: SmartManagement.keepFactory,
     );

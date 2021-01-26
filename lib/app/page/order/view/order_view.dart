@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/order/order_controller.dart';
-import 'package:flutter_base/app/routes/app_pages.dart';
+import 'package:flutter_base/app/routes/app_routes.dart';
 import 'package:flutter_base/app/widgets/colors.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/app/widgets/text_style.dart';

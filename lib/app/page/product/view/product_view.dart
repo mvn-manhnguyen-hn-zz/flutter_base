@@ -146,4 +146,3 @@ class _ProductViewState extends ViewState<ProductView, ProductController> {
     ));
   }
 }
-

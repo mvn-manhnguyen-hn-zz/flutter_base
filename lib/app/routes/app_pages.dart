@@ -8,8 +8,8 @@ import 'package:flutter_base/app/page/home/views/home_view.dart';
 import 'package:flutter_base/app/page/login/view/login.dart';
 import 'package:flutter_base/app/page/order/view/order_view.dart';
 import 'package:flutter_base/app/page/product/view/product_view.dart';
-import 'package:get/get.dart';
-part 'app_routes.dart';
+import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'app_routes.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class AppPages {

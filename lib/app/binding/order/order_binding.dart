@@ -4,6 +4,7 @@ import 'package:flutter_base/domain/interfaces/order_interface.dart';
 import 'package:get/get.dart';
 
 class OrderBindings extends Bindings{
+
   @override
   void dependencies() {
     Get.lazyPut<OrderInterface>(() => OrderRepository(dio: Get.find()));

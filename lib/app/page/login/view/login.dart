@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/login/login_controller.dart';
-import 'package:flutter_base/app/routes/app_pages.dart';
+import 'package:flutter_base/app/routes/app_routes.dart';
 import 'package:get/route_manager.dart';
-import 'package:get/state_manager.dart';
 
 class Login extends View {
   @override
@@ -13,7 +12,6 @@ class Login extends View {
 }
 
 class _LoginState extends ViewState<Login, LoginController> {
-
   Future<void> _scanQuery() async {
     final tempResultBarCode = await FlutterBarcodeScanner.scanBarcode(
         '#004297', 'Cancel', true, ScanMode.QR);
@@ -23,7 +21,6 @@ class _LoginState extends ViewState<Login, LoginController> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
