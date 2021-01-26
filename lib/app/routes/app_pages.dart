@@ -1,15 +1,19 @@
-
-import 'package:flutter_base/app/binding/home_binding.dart';
-import 'package:flutter_base/app/page/home/views/country_view.dart';
-import 'package:flutter_base/app/page/home/views/details_view.dart';
+import 'package:flutter_base/app/binding/edit_profile/edit_profile_binding.dart';
+import 'package:flutter_base/app/binding/home/home_binding.dart';
+import 'package:flutter_base/app/binding/login/login_binding.dart';
+import 'package:flutter_base/app/binding/order/order_binding.dart';
+import 'package:flutter_base/app/binding/product/product_binding.dart';
+import 'package:flutter_base/app/page/editProfile/view/change_profile_view.dart';
 import 'package:flutter_base/app/page/home/views/home_view.dart';
-import 'package:get/get.dart';
-
-part 'app_routes.dart';
+import 'package:flutter_base/app/page/login/view/login.dart';
+import 'package:flutter_base/app/page/order/view/order_view.dart';
+import 'package:flutter_base/app/page/product/view/product_view.dart';
+import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'app_routes.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class AppPages {
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -18,12 +22,24 @@ class AppPages {
       binding: HomeBinding(),
     ),
     GetPage(
-      name: Routes.COUNTRY,
-      page: () => CountryView(),
+      name: Routes.LOGIN,
+      page: () => Login(),
+      binding: LoginBinding(),
     ),
     GetPage(
-      name: Routes.DETAILS,
-      page: () => DetailsView(),
+        name: Routes.EDITPROFILE,
+        page: () => EditProfileView(),
+        binding: EditProfileBinding()
+    ),
+    GetPage(
+        name: Routes.ORDER,
+        page: () => OrderView(),
+        binding: OrderBindings()
+    ),
+    GetPage(
+        name: Routes.PRODUCT,
+        page: () => ProductView(),
+        binding: ProductBindings()
     ),
   ];
 }
