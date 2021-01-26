@@ -10,6 +10,9 @@ class ApiConstant{
   static const EDITPROFILE = 'profile/save';
   static const RANKTOP = 'rank/top';
   static const SETTINGS = '/settings';
+  static const PRODUCT = '/products/foruser';
+  static const CATEGORY = '/categories/product';
+  static const INVOICE = 'orders/me';
 }
 class HeaderNetWorkConstant {
   static final BaseOptions baseOptions = BaseOptions(

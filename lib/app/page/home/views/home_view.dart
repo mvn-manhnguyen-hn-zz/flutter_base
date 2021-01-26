@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/home/home_controller.dart';
+import 'package:flutter_base/app/page/home/views/invoice_view.dart';
 import 'package:flutter_base/app/page/home/views/profile_view.dart';
 import 'package:flutter_base/app/page/home/views/rank_top_view.dart';
 import 'package:flutter_base/app/page/home/views/shop_view.dart';
@@ -16,9 +17,7 @@ class HomeView extends View {
 class _HomeViewState extends ViewState<HomeView, HomeController> {
   final List<Widget> _widgetOptions = <Widget>[
     ShopView(),
-    Text(
-      'Index 2: Đơn hàng',
-    ),
+    InvoiceView(),
     RankTopView(),
     ProfileView()
   ];
@@ -48,7 +47,7 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
             label: 'Cá nhân',
           ),
         ],
-        currentIndex: controller.selectIndex.toInt(),
+        currentIndex: controller.selectIndex.value,
         selectedItemColor: butterscotch,
         onTap: (index){
           controller.onItemTapped(index);

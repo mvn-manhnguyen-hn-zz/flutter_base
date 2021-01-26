@@ -19,6 +19,7 @@ class _RankTopViewState extends ViewState<RankTopView, HomeController> {
     controller.fetchRankTopData();
     super.initState();
   }
+
   @override
   Widget buildPage(BuildContext context) {
     return Obx(() => Stack(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/app/widgets/colors.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
+import 'package:flutter_base/domain/entities/product_model.dart';
 import 'package:flutter_base/domain/interfaces/order_interface.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -17,6 +18,8 @@ class OrderController extends Controller {
   final listPaymentMethods = List<String>().obs;
   final RxString selectedAccount = 'abcXYZdsdsscsewc'.obs;
   final RxString selectedPaymentMethods = 'abcXYZdsdsscsewc'.obs;
+  final listProductChose = List<ProductModel>().obs;
+  final RxInt totalMoney = 0.obs;
 
   Future<void> fetchInformation({VoidCallback callback}) async {
     status(Status.loading);
@@ -30,6 +33,7 @@ class OrderController extends Controller {
       },
     );
   }
+
   Future<void> fetchPaymentMethods({VoidCallback callback}) async {
     status(Status.loading);
     orderInterface.getPaymentMethods().then((value) {
@@ -42,6 +46,7 @@ class OrderController extends Controller {
       },
     );
   }
+
    getWidget({
     @required List<String> list,
     @required RxString selectedValue,
@@ -52,6 +57,7 @@ class OrderController extends Controller {
           width: double.infinity,
           color: white,
           child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
               itemCount: list.length,
               itemBuilder: (context, index){
                 return Obx(() => radioListTitle(
@@ -59,7 +65,7 @@ class OrderController extends Controller {
                     groupValue: selectedValue.value,
                     onChange: (value) async {
                       selectedValue(value);
-                      await Future.delayed(Duration(seconds: 2));
+                      await Future.delayed(Duration(seconds: 1));
                       show(true);
                       Get.back();
                     }

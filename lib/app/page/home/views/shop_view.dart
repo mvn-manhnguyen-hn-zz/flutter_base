@@ -14,11 +14,13 @@ class ShopView extends View {
 }
 
 class _ShopViewState extends ViewState<ShopView, HomeController> {
+
   @override
   void initState() {
     controller.fetchListShop();
     super.initState();
   }
+
   @override
   Widget buildPage(BuildContext context) {
     // TODO: implement buildPage
