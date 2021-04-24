@@ -76,9 +76,8 @@ void dialogAlert(String title, BuildContext context, {Function() callback}) {
                 padding: const EdgeInsets.only(top: 20.0),
                 child: RaisedButton(
                   color: Theme.of(context).primaryColor,
-                  child: Text('Đóng', style: TextStyle(color: Colors.white)),
+                  child: Text('OK', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    Get.back();
                     callback?.call();
                   },
                 ),
@@ -192,43 +191,39 @@ Widget loading({Status status, BuildContext context}) => Visibility(
       ),
     );
 
-Widget textField(
-    {String hintText,
-    String helperText,
-    String labelText,
-    Widget prefixIcon,
-    String prefixText,
-    String suffixText,
-    FocusNode focusNode,
-    int maxLines = 1,
-    bool readOnly = false,
-    Function() onTap,
-    double padding = 12,
-    @required TextEditingController textEditingController}) {
-  return Padding(
-    padding: EdgeInsets.all(padding),
-    child: TextField(
-      maxLines: maxLines,
-      focusNode: focusNode,
-      onTap: onTap?.call(),
-      readOnly: readOnly,
-      controller: textEditingController,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: hintText,
-          helperText: helperText,
-          labelText: labelText,
-          prefixIcon: prefixIcon,
-          prefixText: prefixText,
-          suffixText: suffixText),
-    ),
-  );
-}
-
 clearFocus(BuildContext context) {
   if (FocusScope.of(context).hasFocus) {
     FocusScope.of(context).unfocus();
   } else {
     FocusScope.of(context).requestFocus(FocusNode());
   }
+}
+
+Widget textField({
+  TextEditingController controller,
+  String errorText,
+  VoidCallback onPressed,
+  Function(String) onChange,
+  bool visible,
+  IconButton icon
+  }){
+  return TextField(
+    onChanged: onChange,
+    style: TextStyle(fontSize: 21),
+    decoration: InputDecoration(
+        errorText: errorText == 'null' ? null : errorText,
+        suffixIcon: icon,
+        contentPadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+                Radius.circular(20)
+            )
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+              Radius.circular(20)
+          ),
+        )
+    ),
+  );
 }

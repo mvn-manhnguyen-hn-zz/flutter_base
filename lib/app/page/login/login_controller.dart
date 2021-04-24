@@ -1,58 +1,47 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_base/app/base/controller.dart';
-import 'package:flutter_base/data/storage/hive_storage.dart';
-
+import 'package:flutter_base/data/firebase_constant/constant.dart';
 import 'package:get/get.dart';
 
-
 class LoginController extends Controller {
-  LoginController();
+  final email = Rx<String>();
+  final emailError = Rx<String>();
+  final password = Rx<String>();
+  final passwordError = Rx<String>();
 
-  /// inject repo abstraction dependency
+  Future<void> loginUser({VoidCallback callback}) async {
+    try {
+      print('Email: $email Password: $password');
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email.toString(),
+          password: password.toString()
+      ).then((value){
+        users
+            .doc(user.currentUser.uid)
+            .update({
+          'password' : password.toString()
+        }).then((value) => print('Login success'));
+      })
+          .catchError((e) => checkError(e.toString()));
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+    }
+  }
 
-  /// create a reactive status from request with initial value = loading
-  final resultBarcode = Rx<String>();
-  // final accessToken = Rx<AccessToken>();
-
-  /// When the controller is initialized, make the http request
-
-  // checkIfIsLogged() async {
-  //   FacebookAuth.instance.isLogged.then((accessToken) {
-  //     if (accessToken != null) {
-  //       // now you can call to  FacebookAuth.instance.getUserData();
-  //       // final userData = await FacebookAuth.instance.getUserData(fields:"email,birthday");
-  //       this.accessToken(accessToken);
-  //       this.status(Status.success);
-  //     }
-  //   });
-  // }
-
-
-  /// fetch cases from Api
-  Future<void> fetchDataFromApi({VoidCallback action}) async {
-    /// When the repository returns the value, change the status to success,
-    /// and fill in "cases"
-    status(Status.loading);
-    // if (accessToken.value == null) {
-    //   final result = await FacebookAuth.instance.login();
-    //   // final result = await FacebookAuth.instance.login(permissions:['email','user_birthday']);
-    //   accessToken(result);
-    // }
-    final token = resultBarcode.value.split(';');
-    // await loginInterface.login(token[1]).then(
-    //   (data) async {
-    //
-    //   },
-    await HiveStorage.persistToken(token[1]);
-
-    status(Status.success);
-    action?.call();
-      /// In case of error, print the error and change the status
-      /// to Status.error
-      // onError: (err) {
-      //   print("$err");
-      //   status(Status.error);
-      // },
-    // );
+  void checkError(String error) {
+    if (error == '[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted.') {
+      emailError('No user found for that email.');
+      passwordError('null');
+    } else if (error == '[firebase_auth/invalid-email] The email address is badly formatted.'){
+      emailError('The email address is badly formatted.');
+      passwordError('null');
+    } else if (error == '[firebase_auth/wrong-password] The password is invalid or the user does not have a password.') {
+      emailError('null');
+      passwordError('Wrong password');
+    } else if (error == '[firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.') {
+      emailError('This account is blocked. Try again later.');
+      passwordError('null');
+    }
   }
 }

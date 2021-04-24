@@ -17,6 +17,13 @@ class HomeController extends Controller {
 
   final listShop = List<ShopModel>().obs;
 
+  Future<void> nextToHome({VoidCallback callback}) async {
+    Future.delayed(
+        Duration(seconds: 3),
+            () => callback
+    );
+  }
+
   Future<void> fetchListShop({VoidCallback callback}) async {
     status(Status.loading);
 

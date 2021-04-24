@@ -34,12 +34,19 @@ dependencies:
   google_fonts:
   hive:
   hive_flutter:
-  pull_to_refresh:
-  launch_review:
-
+  flutter_launcher_icons: ^0.8.1
+  datetime_picker_formfield: ^1.0.0
+  firebase_core: "^0.5.0"
+  firebase_auth: ^0.18.0+1
+  cloud_firestore: "^0.14.1+2"
+  google_maps_flutter:
+  geolocator: 5.3.2+2
   connectivity:
-  url_launcher:
-  flutter_barcode_scanner:
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/logo1.jpg"
 
 dev_dependencies:
   flutter_test:
@@ -57,9 +64,13 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/logo.jpg
+    - assets/cars.jpg
+    - assets/icon/logo1.jpg
+    - assets/full.png
+    - assets/my_location.png
+    - assets/ok.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
