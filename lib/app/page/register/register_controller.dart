@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_base/app/base/controller.dart';
+import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/firebase_constant/constant.dart';
 import 'package:get/get_rx/src/rx_core/rx_impl.dart';
 
@@ -66,32 +67,44 @@ class RegisterController extends Controller {
   }
 
   Future<void> createUser({VoidCallback callback}) async {
-    try {
-      print('Email: $email  Password: $password');
-      UserCredential userCredential = await FirebaseAuth
-          .instance
-          .createUserWithEmailAndPassword(
-          email: email.toString(), password: password.toString());
-      users
-          .doc(user.currentUser.uid)
-          .set({
-        'name': name.toString(),
-        'email': email.toString(),
-        'password': password.toString(),
-        'numberPhone': numberPhone.toString(),
-        'licensePlate': licensePlace.toString(),
-        'id': user.currentUser.uid.toString(),
-      })
-          .then((value) {
-        print("User Added");
-        callback?.call();
-      })
-          .catchError((error) => print("Failed to add user: $error"));
-    } on FirebaseAuthException catch (e) {
-      print('Error FirebaseAuthException: $e');
-      emailError('The email address is already in use by another account');
-    } catch (e) {
-      print('Error: $e');
+    if (connect.value == ConnectInternet.valid) {
+      try {
+        status(Status.loading);
+        print('Email: $email  Password: $password');
+        UserCredential userCredential = await FirebaseAuth
+            .instance
+            .createUserWithEmailAndPassword(
+            email: email.toString(), password: password.toString());
+        users
+            .doc(user.currentUser.uid)
+            .set({
+          'name': name.toString(),
+          'email': email.toString(),
+          'password': password.toString(),
+          'numberPhone': numberPhone.toString(),
+          'licensePlate': licensePlace.toString(),
+          'id': user.currentUser.uid.toString(),
+        })
+            .then((value) {
+          status(Status.success);
+          print("User Added");
+          callback?.call();
+        })
+            .catchError((error){
+          status(Status.error);
+          print("Failed to add user: $error");
+        });
+      } on FirebaseAuthException catch (e) {
+        print('Error FirebaseAuthException: $e');
+        status(Status.error);
+        emailError('The email address is already in use by another account');
+      } catch (e) {
+        print('Error: $e');
+      }
+    } else {
+      showDialogAnnounce(
+          content: 'Please check your internet!'
+      );
     }
   }
 }

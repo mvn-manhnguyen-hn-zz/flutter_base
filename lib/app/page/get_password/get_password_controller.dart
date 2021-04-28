@@ -11,16 +11,25 @@ class GetPassWordController extends Controller{
   final emailError = Rx<String>();
 
   Future<void> checkEmail(BuildContext context) async {
-    FirebaseAuth.instance.sendPasswordResetEmail(email: email.toString()).then((value){
-      dialogAlert(
-          'Please check your email to get new password',
-          context,
-          callback: () => Get.until((route) => Get.currentRoute == Routes.LOGIN)
+    if (connect.value == ConnectInternet.valid) {
+      status(Status.loading);
+      FirebaseAuth.instance.sendPasswordResetEmail(email: email.toString()).then((value){
+        status(Status.success);
+        dialogAlert(
+            'Please check your email to get new password',
+            context,
+            callback: () => Get.until((route) => Get.currentRoute == Routes.LOGIN)
+        );
+      }).catchError((e) => checkError(e.toString()));
+    } else {
+      showDialogAnnounce(
+          content: 'Please check your internet!'
       );
-    }).catchError((e) => checkError(e.toString()));
+    }
   }
 
   void checkError(String error) {
+    status(Status.error);
     print(error);
     if (error == '[firebase_auth/invalid-email] The email address is badly formatted.') {
       emailError('The email address is badly formatted.');

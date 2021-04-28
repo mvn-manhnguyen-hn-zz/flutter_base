@@ -1,7 +1,4 @@
-// ignore: implementation_imports
 import 'package:flutter/material.dart';
-// ignore: implementation_imports
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/home/home_controller.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';

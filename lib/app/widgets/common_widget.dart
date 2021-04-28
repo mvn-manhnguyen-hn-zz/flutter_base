@@ -1,56 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/controller.dart';
-import 'package:flutter_base/app/widgets/text_style.dart';
 import 'package:get/get.dart';
-
-void dialogYesNo(String title, BuildContext context, {Function() callback}) {
-  showDialog<Null>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Container(
-          width: double.maxFinite,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title,
-                style: TextStyle(color: Theme.of(context).primaryColor),
-                textAlign: TextAlign.center,
-              ),
-              Row(
-                children: [
-                  RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    child: Text('Không', style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                  Spacer(),
-                  RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    child: Text('Có', style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      Get.back();
-
-                      callback?.call();
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
 
 void dialogAlert(String title, BuildContext context, {Function() callback}) {
   showDialog<Null>(
@@ -90,93 +40,17 @@ void dialogAlert(String title, BuildContext context, {Function() callback}) {
   );
 }
 
-void dialogQuantities(String title, RxInt quantities, BuildContext context,
-    {Function(int) callback, Function() remove}) {
-  showDialog<Null>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Obx(() => Container(
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          width: 40,
-                          child: RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            child: Text('-',
-                                style: TextStyle(color: Colors.white)),
-                            onPressed: quantities.value > 0
-                                ? () {
-                                    quantities(quantities.value - 1);
-                                  }
-                                : null,
-                          ),
-                        ),
-                        Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                                border: Border.all(
-                                    color: Theme.of(context).primaryColor,
-                                    width: 2)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 6, horizontal: 12.0),
-                              child: Text(quantities.value.toString(),
-                                  style: Style.article1TextStyle.copyWith(
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.bold)),
-                            )),
-                        SizedBox(
-                          width: 40,
-                          child: RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            child: Text('+',
-                                style: TextStyle(color: Colors.white)),
-                            onPressed: () {
-                              quantities(quantities.value + 1);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: RaisedButton(
-                      color: Theme.of(context).primaryColor,
-                      child: Text('Xác nhận',
-                          style: TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        Get.back();
-                        callback(quantities.value);
-                      },
-                    ),
-                  )
-                ],
-              ),
-            )),
-      );
-    },
+Future<void> showDialogAnnounce({
+  @required String content,
+  Function onCancel
+}) async {
+  Get.defaultDialog(
+      title: 'Announce',
+      middleText: content,
+      textCancel: 'ok',
+      cancelTextColor: Colors.red,
+      buttonColor: Colors.green,
+      onCancel: onCancel
   );
 }
 
@@ -200,19 +74,21 @@ clearFocus(BuildContext context) {
 }
 
 Widget textField({
-  TextEditingController controller,
   String errorText,
   VoidCallback onPressed,
   Function(String) onChange,
-  bool visible,
-  IconButton icon
+  IconButton suffixIcon,
+  bool obscureText,
+  VoidCallback onTap
   }){
   return TextField(
+    onTap: onTap,
     onChanged: onChange,
+    obscureText: obscureText ?? false,
     style: TextStyle(fontSize: 21),
     decoration: InputDecoration(
         errorText: errorText == 'null' ? null : errorText,
-        suffixIcon: icon,
+        suffixIcon: suffixIcon,
         contentPadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
         focusedBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(
@@ -225,5 +101,88 @@ Widget textField({
           ),
         )
     ),
+  );
+}
+
+Widget text(String text) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 10),
+    child: Text(
+      text,
+      style: TextStyle(fontSize: 21),
+    ),
+  );
+}
+
+Widget richText({
+  String text1, text2
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 10),
+    child: RichText(
+      text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(text: text1, style: TextStyle(fontSize: 21, color: Colors.black)),
+            TextSpan(text: text2, style: TextStyle(fontSize: 21, color: Colors.black)),
+          ]
+      ),
+    ),
+  );
+}
+
+Widget buttonError({VoidCallback callback}) {
+  return Center(
+    child: RaisedButton(
+      onPressed: () => callback(),
+      child: text('Reload'),
+      color: Colors.blue,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10)
+      ),
+    ),
+  );
+}
+
+Widget textFormField({
+  String initialValue,
+  Function(String) onChanged,
+  String errorText
+}) {
+  return TextFormField(
+    initialValue: initialValue,
+    onChanged: onChanged,
+    style: TextStyle(fontSize: 21),
+    decoration: InputDecoration(
+        errorText: errorText == 'null' ? null : errorText,
+        contentPadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+                Radius.circular(20)
+            )
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+              Radius.circular(20)
+          ),
+        )
+    ),
+  );
+}
+
+Future<void> showDialogChoose({
+  @required String content,
+  Function onConfirm,
+  String textCancel,
+  String textConfirm
+}) async {
+  Get.defaultDialog(
+    title: 'Announce',
+    middleText: content,
+    textCancel: textCancel,
+    cancelTextColor: Colors.red,
+    textConfirm: textConfirm,
+    confirmTextColor: Colors.green,
+    buttonColor: Colors.yellow,
+    onConfirm: onConfirm,
   );
 }
