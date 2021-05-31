@@ -3,7 +3,8 @@ import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/firebase_constant/constant.dart';
-import 'package:flutter_base/domain/entities/user_state_model.dart';
+import 'package:flutter_base/data/model/bill_model.dart';
+import 'package:flutter_base/data/model/user_state_model.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_core/rx_impl.dart';
 import 'package:intl/intl.dart';
@@ -65,17 +66,19 @@ class BookController extends Controller{
 
   void cancelPointWithDeposit() {
     exceptPointPL(userStateInformation.value.idPL);
-    bill.add({
-      'nameUser' : userStateInformation.value.nameUser,
-      'idUser' : userStateInformation.value.idUser,
-      'namePL' : userStateInformation.value.namePL,
-      'addressPL' : userStateInformation.value.addressPL,
-      'idPL' : userStateInformation.value.idPL,
-      'rentedTime' : userStateInformation.value.rentedTime,
-      'returnTime' : userStateInformation.value.returnTime,
-      'phoneNumbersPL' : userStateInformation.value.phoneNumbersPL,
-      'deposit' : userStateInformation.value.deposit,
-    }).then((value2) async {
+    bill.add(
+        BillJson(
+            nameUser: userStateInformation.value.nameUser,
+            idUser: userStateInformation.value.idUser,
+            namePL: userStateInformation.value.namePL,
+            addressPL: userStateInformation.value.addressPL,
+            idPL: userStateInformation.value.idPL,
+            rentedTime: userStateInformation.value.rentedTime,
+            returnTime: userStateInformation.value.returnTime,
+            phoneNumbersPL: userStateInformation.value.phoneNumbersPL,
+            deposit: userStateInformation.value.deposit
+        ).toJson()
+    ).then((value2) async {
       await bill.doc(value2.id).update({
         'idBill' : value2.id
       });
@@ -101,10 +104,12 @@ class BookController extends Controller{
     if (checkBookState(userStateInformation.value.rentedTime, _now)){
       userState
           .doc(idBookState.value)
-          .update({
-        'stateRent' : true,
-        'rentedTime' : _now
-      }).then((value) async {
+          .update(
+          UserStateJson(
+              stateRent: true,
+              rentedTime: Timestamp.fromDate(_now)
+          ).toJson()
+      ).then((value) async {
         await addPointPL(userStateInformation.value.idPL);
         Get.offNamed(
             Routes.RENTDETAILS,

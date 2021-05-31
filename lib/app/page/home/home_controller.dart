@@ -8,10 +8,10 @@ import 'package:flutter_base/app/routes/app_pages.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/destination/destination_data.dart';
 import 'package:flutter_base/data/firebase_constant/constant.dart';
-import 'package:flutter_base/domain/entities/parking_lot_model.dart';
+import 'package:flutter_base/data/model/parking_lot_model.dart';
+import 'package:flutter_base/data/model/user_model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:flutter_base/domain/entities/user_model.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeController extends Controller {
@@ -23,12 +23,13 @@ class HomeController extends Controller {
   final chooseDestination = Rx<String>();
   final destination = List<String>();
   final allMarkers = List<Marker>();
-  final rentedTime = Rx<DateTime>();
-  final returnTime = Rx<DateTime>();
   final parkingLotFull = Rx<BitmapDescriptor>();
   final parkingLotNotFull = Rx<BitmapDescriptor>();
   final myLocation = Rx<BitmapDescriptor>();
   final currentPosition = Rx<Position>();
+  final textSearch = Rx<String>();
+
+  List<ParkingLotJson> listPL;
 
   Future<void> nextToHome({VoidCallback callback}) async {
     addParkingLot();
@@ -36,7 +37,7 @@ class HomeController extends Controller {
     checkCurrentState();
     checkReservation();
     Future.delayed(
-        Duration(milliseconds: 1500),
+        Duration(milliseconds: 2000),
             () => callback()
     );
   }
@@ -72,14 +73,14 @@ class HomeController extends Controller {
         .then((QuerySnapshot querySnapshot){
       querySnapshot.docs.forEach((doc) {
         var _parkingLot = ParkingLotJson.fromJson(doc.data());
-        if(_parkingLot.geoPoint != null) {
+        if(_parkingLot.location != null) {
           allMarkers.add(Marker(
             markerId: MarkerId(doc.id),
             icon: _parkingLot.statePL ? parkingLotNotFull.value : parkingLotFull.value,
             onTap: (){
               Get.toNamed(Routes.PARKINGLOT, arguments: doc.id);
             },
-            position: LatLng(_parkingLot.geoPoint.latitude, _parkingLot.geoPoint.longitude),
+            position: LatLng(_parkingLot.location.latitude, _parkingLot.location.longitude),
             infoWindow: InfoWindow(
                 title: _parkingLot.namePL,
                 snippet: _parkingLot.address

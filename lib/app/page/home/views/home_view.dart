@@ -13,6 +13,7 @@ class HomeView extends View {
 }
 
 class _HomeViewState extends ViewState<HomeView, HomeController> {
+  TextEditingController textEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -22,13 +23,21 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
     controller.getDestination();
     controller.announceCancelPoint();
     controller.getCurrentLocation();
+    textListener();
     super.initState();
   }
 
   @override
   void dispose() {
     controller.mapController.future.then((value) => value.dispose());
+    textEditingController.dispose();
     super.dispose();
+  }
+
+  void textListener() {
+    textEditingController.addListener(() {
+        controller.textSearch(textEditingController.text);
+    });
   }
 
   Widget text(String text) {
@@ -90,6 +99,20 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
           );
         },
       ),
+    );
+  }
+
+  Widget search() {
+    return Column(
+      children: [
+        textField(
+          controller: textEditingController,
+          suffixIcon: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: null)
+        ),
+        //Expanded(child: null)
+      ],
     );
   }
 

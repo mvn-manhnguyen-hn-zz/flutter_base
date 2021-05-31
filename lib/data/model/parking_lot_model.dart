@@ -9,7 +9,7 @@ class ParkingLotJson {
   int deposit;
   int numberPhone;
   int penalty;
-  GeoPoint geoPoint;
+  GeoPoint location;
   double distance;
   int totalPoints;
   int pointsUsed;
@@ -23,7 +23,7 @@ class ParkingLotJson {
         this.deposit,
         this.numberPhone,
         this.penalty,
-        this.geoPoint,
+        this.location,
         this.distance,
         this.totalPoints,
         this.pointsUsed
@@ -38,7 +38,7 @@ class ParkingLotJson {
     deposit = json['deposit'];
     numberPhone = json['numberPhone'];
     penalty = json['penalty'];
-    geoPoint = json['location'] != null
+    location = json['location'] != null
         ? json['location']
         : null;
     distance = json['distance'];
@@ -56,8 +56,8 @@ class ParkingLotJson {
     data['deposit'] = this.deposit;
     data['numberPhone'] = this.numberPhone;
     data['penalty'] = this.penalty;
-    if (this.geoPoint != null) {
-      data['location'] = this.geoPoint;
+    if (this.location != null) {
+      data['location'] = this.location;
     }
     data['distance'] = this.distance;
     data['totalPoints'] = this.totalPoints;

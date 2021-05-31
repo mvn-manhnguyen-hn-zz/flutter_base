@@ -65,23 +65,17 @@ Widget loading({Status status, BuildContext context}) => Visibility(
       ),
     );
 
-clearFocus(BuildContext context) {
-  if (FocusScope.of(context).hasFocus) {
-    FocusScope.of(context).unfocus();
-  } else {
-    FocusScope.of(context).requestFocus(FocusNode());
-  }
-}
-
 Widget textField({
   String errorText,
   VoidCallback onPressed,
   Function(String) onChange,
   IconButton suffixIcon,
   bool obscureText,
-  VoidCallback onTap
+  VoidCallback onTap,
+  TextEditingController controller
   }){
   return TextField(
+    controller: controller,
     onTap: onTap,
     onChanged: onChange,
     obscureText: obscureText ?? false,

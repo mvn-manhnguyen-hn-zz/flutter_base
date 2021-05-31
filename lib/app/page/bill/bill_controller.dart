@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/firebase_constant/constant.dart';
-import 'package:flutter_base/domain/entities/bill_model.dart';
+import 'package:flutter_base/data/model/bill_model.dart';
 import 'package:get/get_rx/src/rx_core/rx_impl.dart';
 import 'package:intl/intl.dart';
 

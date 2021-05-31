@@ -4,7 +4,7 @@ import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/firebase_constant/constant.dart';
-import 'package:flutter_base/domain/entities/user_model.dart';
+import 'package:flutter_base/data/model/user_model.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends Controller {
@@ -55,11 +55,13 @@ class ProfileController extends Controller {
       status(Status.loading);
       users
           .doc(user.currentUser.uid)
-          .update({
-        'name' : nameNew.value ?? userProfile.value.name,
-        'numberPhone' : numberPhoneNew.value ?? userProfile.value.numberPhone,
-        'licensePlate' : licensePlateNew.value ?? userProfile.value.licensePlate,
-      })
+          .update(
+          UserJson(
+            name: nameNew.value ?? userProfile.value.name,
+            numberPhone: numberPhoneNew.value ?? userProfile.value.numberPhone,
+            licensePlate: licensePlateNew.value ?? userProfile.value.licensePlate,
+          ).toJson()
+      )
           .then((value){
         status(Status.success);
         showDialogAnnounce(

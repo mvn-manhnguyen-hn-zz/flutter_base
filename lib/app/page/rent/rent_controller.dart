@@ -5,8 +5,9 @@ import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/firebase_constant/constant.dart';
-import 'package:flutter_base/domain/entities/parking_lot_model.dart';
-import 'package:flutter_base/domain/entities/user_state_model.dart';
+import 'package:flutter_base/data/model/bill_model.dart';
+import 'package:flutter_base/data/model/parking_lot_model.dart';
+import 'package:flutter_base/data/model/user_state_model.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 
@@ -59,16 +60,18 @@ class RentController extends Controller {
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       final DateTime _now = DateTime.now();
-      bill.add({
-        'nameUser' : userStateInformation.value.nameUser,
-        'idUser' : userStateInformation.value.idUser,
-        'namePL' : userStateInformation.value.namePL,
-        'addressPL' : userStateInformation.value.addressPL,
-        'idPL' : userStateInformation.value.idPL,
-        'rentedTime' : userStateInformation.value.rentedTime,
-        'returnTime' : _now,
-        'phoneNumbersPL' : userStateInformation.value.phoneNumbersPL,
-      }).then((value2) async {
+      bill.add(
+          BillJson(
+            nameUser: userStateInformation.value.nameUser,
+            idUser: userStateInformation.value.idUser,
+            namePL: userStateInformation.value.namePL,
+            addressPL: userStateInformation.value.addressPL,
+            idPL: userStateInformation.value.idPL,
+            rentedTime: userStateInformation.value.rentedTime,
+            returnTime: Timestamp.fromDate(_now),
+            phoneNumbersPL: userStateInformation.value.phoneNumbersPL,
+          ).toJson()
+      ).then((value2) async {
         await exceptPointPL(userStateInformation.value.idPL);
         await updateBill(userStateInformation.value.rentedTime, userStateInformation.value.returnTime, value2.id);
         await userState.doc(idRentState.value).delete().then((value3) => print('deleted'));
@@ -95,22 +98,24 @@ class RentController extends Controller {
         final _differentTime = _now.difference(rentTime.toDate());
         price(_differentTime.inHours*parkingLotInformation.value.price
             + ((_differentTime.inMinutes - _differentTime.inHours*60) > 10 ? 1 : 0)*parkingLotInformation.value.price);
-        bill.doc(idBill).update({
-          'idBill' : idBill,
-          'price' : price.value,
-          'timeUsed' : _differentTime.inMinutes
-        });
+        bill.doc(idBill).update(
+            BillJson(
+                idBill: idBill,
+                price: price.value,
+                timeUsed: _differentTime.inMinutes
+            ).toJson()
+        );
       } else {
         final _differentTime = returnTime.toDate().difference(rentTime.toDate());
         price(_differentTime.inHours*parkingLotInformation.value.price
             + ((_differentTime.inMinutes - _differentTime.inHours*60) > 10 ? 1 : 0)*parkingLotInformation.value.price);
-        bill.doc(idBill).update({
-          'idBill' : idBill,
-          'price' : price.value,
-          'penalty' : parkingLotInformation.value.penalty,
-          'timeUsed' : _differentTime.inMinutes,
-          'timeOverdue' : _now.difference(returnTime.toDate()).inMinutes
-        });
+        bill.doc(idBill).update(BillJson(
+            idBill: idBill,
+            price: price.value,
+            penalty: parkingLotInformation.value.penalty,
+            timeUsed: _differentTime.inMinutes,
+            timeOverdue: _now.difference(returnTime.toDate()).inMinutes
+        ).toJson());
       }
     } else {
       status(Status.error);

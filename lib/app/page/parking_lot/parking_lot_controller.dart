@@ -3,9 +3,9 @@ import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/firebase_constant/constant.dart';
-import 'package:flutter_base/domain/entities/parking_lot_model.dart';
-import 'package:flutter_base/domain/entities/user_model.dart';
-import 'package:flutter_base/domain/entities/user_state_model.dart';
+import 'package:flutter_base/data/model/parking_lot_model.dart';
+import 'package:flutter_base/data/model/user_model.dart';
+import 'package:flutter_base/data/model/user_state_model.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -107,21 +107,23 @@ class ParkingLotController extends Controller {
   Future<void> updateBooking() async {
     status(Status.loading);
     await userState
-        .add({
-      'nameUser' : userInformation.value.name,
-      'idUser' : user.currentUser.uid,
-      'namePL' : parkingLotInformation.value.namePL,
-      'addressPL' : parkingLotInformation.value.address,
-      'idPL' : idPL.value,
-      'rentedTime' : rentedTime.value,
-      'returnTime' : returnTime.value,
-      'phoneNumbersPL' : parkingLotInformation.value.numberPhone,
-      'deposit' : parkingLotInformation.value.deposit,
-      'price' : parkingLotInformation.value.price,
-      'penalty' : parkingLotInformation.value.penalty,
-      'stateRent' : false,
-      'notUsed' : false
-    }).then((value) async {
+        .add(
+        UserStateJson(
+            nameUser: userInformation.value.name,
+            idUser: user.currentUser.uid,
+            namePL: parkingLotInformation.value.namePL,
+            addressPL: parkingLotInformation.value.address,
+            idPL: idPL.value,
+            rentedTime: Timestamp.fromDate(rentedTime.value),
+            returnTime: Timestamp.fromDate(returnTime.value),
+            phoneNumbersPL: parkingLotInformation.value.numberPhone,
+            deposit: parkingLotInformation.value.deposit,
+            price: parkingLotInformation.value.price,
+            penalty: parkingLotInformation.value.penalty,
+            stateRent: false,
+            notUsed: false
+        ).toJson()
+    ).then((value) async {
       await userState.doc(value.id).update({'idUserState' : value.id});
       status(Status.success);
       Get.offNamed(

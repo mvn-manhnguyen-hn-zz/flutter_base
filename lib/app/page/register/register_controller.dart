@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/firebase_constant/constant.dart';
+import 'package:flutter_base/data/model/user_model.dart';
 import 'package:get/get_rx/src/rx_core/rx_impl.dart';
 
 class RegisterController extends Controller {
@@ -77,14 +78,16 @@ class RegisterController extends Controller {
             email: email.toString(), password: password.toString());
         users
             .doc(user.currentUser.uid)
-            .set({
-          'name': name.toString(),
-          'email': email.toString(),
-          'password': password.toString(),
-          'numberPhone': numberPhone.toString(),
-          'licensePlate': licensePlace.toString(),
-          'id': user.currentUser.uid.toString(),
-        })
+            .set(
+            UserJson(
+                name: name.toString(),
+                email: email.toString(),
+                password: password.toString(),
+                numberPhone: numberPhone.toString(),
+                licensePlate: licensePlace.toString(),
+                id: user.currentUser.uid.toString()
+            ).toJson()
+        )
             .then((value) {
           status(Status.success);
           print("User Added");
