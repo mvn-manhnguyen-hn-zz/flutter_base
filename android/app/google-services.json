@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "226204981053",
-    "project_id": "parking-470df",
-    "storage_bucket": "parking-470df.appspot.com"
+    "project_number": "1003660951636",
+    "project_id": "parking1-2c59e",
+    "storage_bucket": "parking1-2c59e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:226204981053:android:b815172edeb11ff1a49754",
+        "mobilesdk_app_id": "1:1003660951636:android:a39068da0dd036c5dc6dc1",
         "android_client_info": {
           "package_name": "com.mlh.flutter_base"
         }
       },
       "oauth_client": [
         {
-          "client_id": "226204981053-10gdbpn8aarll29sdq495jhm62kdce49.apps.googleusercontent.com",
+          "client_id": "1003660951636-ns833thlcbr2l4ea16c0b90hpb244tv6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCAUFdTP8AeK2jZPyCfp5vRe-SaEhOk34g"
+          "current_key": "AIzaSyCUrU6S12nsNnGvISNlnwQqRf6LZvHy15I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "226204981053-10gdbpn8aarll29sdq495jhm62kdce49.apps.googleusercontent.com",
+              "client_id": "1003660951636-ns833thlcbr2l4ea16c0b90hpb244tv6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

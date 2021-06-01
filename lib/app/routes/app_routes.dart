@@ -15,4 +15,5 @@ abstract class Routes {
   static const BILLDETAILS = '/billDetails';
   static const LISTBILLS = '/listBills';
   static const PROFILE = '/profile';
+  static const FIVENEARESTPARKINGLOTS = '/fiveNearestParkingLots';
 }

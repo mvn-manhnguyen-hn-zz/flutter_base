@@ -15,6 +15,7 @@ import 'package:flutter_base/app/page/get_password/views/get_password_view.dart'
 import 'package:flutter_base/app/page/home/views/home_view.dart';
 import 'package:flutter_base/app/page/home/views/splash_view.dart';
 import 'package:flutter_base/app/page/login/view/login.dart';
+import 'package:flutter_base/app/page/parking_lot/view/five_nearst_parking_lot.dart';
 import 'package:flutter_base/app/page/parking_lot/view/parking_lot.dart';
 import 'package:flutter_base/app/page/parking_lot/view/state_parking_lot.dart';
 import 'package:flutter_base/app/page/profile/view/profile.dart';
@@ -57,6 +58,11 @@ class AppPages {
     GetPage(
         name: Routes.PARKINGLOT,
         page: () => ParkingLot(),
+        binding: ParkingLotBinding()
+    ),
+    GetPage(
+        name: Routes.FIVENEARESTPARKINGLOTS,
+        page: () => FiveNearestPL(),
         binding: ParkingLotBinding()
     ),
     GetPage(

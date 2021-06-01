@@ -56,17 +56,20 @@ class ProfileController extends Controller {
       users
           .doc(user.currentUser.uid)
           .update(
-          UserJson(
-            name: nameNew.value ?? userProfile.value.name,
-            numberPhone: numberPhoneNew.value ?? userProfile.value.numberPhone,
-            licensePlate: licensePlateNew.value ?? userProfile.value.licensePlate,
-          ).toJson()
+          {
+            'name' : nameNew.value ?? userProfile.value.name,
+            'numberPhone' : numberPhoneNew.value ?? userProfile.value.numberPhone,
+            'licensePlate' : licensePlateNew.value ?? userProfile.value.licensePlate,
+          }
       )
           .then((value){
         status(Status.success);
         showDialogAnnounce(
           content: 'Changed successfully your information',
-          onCancel: () => Get.until((route) => Get.currentRoute == Routes.HOME)
+          onCancel: () {
+            Get.back();
+            getUserInformation();
+          }
         );
       })
           .catchError((error){

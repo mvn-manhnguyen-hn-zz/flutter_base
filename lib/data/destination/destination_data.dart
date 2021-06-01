@@ -27,4 +27,5 @@ List<Destination> destinationData = [
   Destination(name: 'SVĐ Mỹ Đình', location: GeoPoint(21.020664, 105.763120)),
   Destination(name: 'Monstar Lab', location: GeoPoint(21.012040, 105.775130)),
   Destination(name: 'SVĐ Bách Khoa', location: GeoPoint(21.002394, 105.847832)),
+  Destination(name: 'My location'),
 ];

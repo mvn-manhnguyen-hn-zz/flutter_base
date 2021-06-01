@@ -21,21 +21,20 @@ class HomeController extends Controller {
   final name = Rx<String>();
   final numberPhone = Rx<String>();
   final chooseDestination = Rx<String>();
-  final destination = List<String>();
   final allMarkers = List<Marker>();
   final parkingLotFull = Rx<BitmapDescriptor>();
   final parkingLotNotFull = Rx<BitmapDescriptor>();
   final myLocation = Rx<BitmapDescriptor>();
   final currentPosition = Rx<Position>();
   final textSearch = Rx<String>();
+  final listSearch = List<String>();
 
-  List<ParkingLotJson> listPL;
+  List<ParkingLotJson> listPL = [];
 
   Future<void> nextToHome({VoidCallback callback}) async {
     addParkingLot();
-    addPointsUsed();
-    checkCurrentState();
-    checkReservation();
+    await checkCurrentState();
+    await checkReservation();
     Future.delayed(
         Duration(milliseconds: 2000),
             () => callback()
@@ -52,6 +51,13 @@ class HomeController extends Controller {
       var _user = UserJson.fromJson(value.data());
       name(_user.name);
       numberPhone(_user.numberPhone);
+    });
+    parkingLot
+    .get()
+    .then((value){
+      value.docs.forEach((e) {
+        listPL.add(ParkingLotJson.fromJson(e.data()));
+      });
     });
   }
 
@@ -97,25 +103,16 @@ class HomeController extends Controller {
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
           .then((Position position){
         currentPosition(position);
+        destinationData.forEach((element) {
+          if (element.name == 'My location') {
+            element.location = GeoPoint(position.latitude, position.longitude);
+          }
+        });
       });
     } else {
       List<Placemark> p = await geolocator.placemarkFromCoordinates(
           currentPosition.value.latitude, currentPosition.value.longitude);
     }
-  }
-
-  void getDestination() {
-    parkingLot
-        .get()
-        .then((value){
-      value.docs.forEach((element) {
-        destination.add(element.data()['namePL']);
-      });
-    });
-    destination.add('My location');
-    destinationData.forEach((element) {
-      destination.add(element.name);
-    });
   }
 
   void moveToMyLocation() async {
@@ -169,49 +166,70 @@ class HomeController extends Controller {
     }
   }
 
-  void query() async {
-    if (chooseDestination.value == null) {
-      showDialogAnnounce(content: 'please enter your destination');
-    } else {
-      parkingLot
-          .where('namePL', isEqualTo: chooseDestination.value)
-          .get()
-          .then((value){
-        value.docs.forEach((element) {
-          if (chooseDestination.value.compareTo(element.data()['namePL']) == 0){
-            // Get.to(DetailsPL(
-            //     documentId: element.data()['id']
-            // ));
-          }
-        });
-      });
-      // destination.forEach((element2) {
-      //   if (_chooseDestination.compareTo(element2.name) == 0){
-      //     _chooseFivePL(element2.location);
-      //   }
-      // });
-      if (chooseDestination.value.compareTo('My location') == 0){
-        if (currentPosition.value == null){
-          getCurrentLocation();
-        } else {
-          GeoPoint _geo = GeoPoint(
-              currentPosition.value.latitude,
-              currentPosition.value.longitude);
-          chooseFivePL(_geo);
+  void research(String text) {
+    listSearch.clear();
+    textSearch(text);
+    if (!textSearch.isNullOrBlank && textSearch.value.length > 0) {
+      listPL.forEach((element) {
+        if (element.namePL.toUpperCase().contains(textSearch.value.toUpperCase())) {
+          listSearch.add(element.namePL);
         }
-      }
+      });
+      destinationData.forEach((element) {
+        if (element.name.toUpperCase().contains(textSearch.value.toUpperCase())) {
+          listSearch.add(element.name);
+        }
+      });
     }
   }
 
-  void chooseFivePL(GeoPoint point2) async {
-    await parkingLot
-        .get()
-        .then((value) {
-      value.docs.forEach((element) {
-        countDistant(element.data()['location'], point2, element.data()['id']);
+  void queryDestination() async {
+    status(Status.loading);
+    final a = listPL.indexWhere((element) => element.namePL == textSearch.value);
+    final b = destinationData.indexWhere((element) => element.name == textSearch.value);
+    if (a + b == -2) {
+      status(Status.success);
+      showDialogAnnounce(content: 'Not found your destination.');
+    } else {
+      listPL.forEach((element) {
+        if (element.namePL.toUpperCase() == textSearch.value.toUpperCase()) {
+          status(Status.success);
+          Get.toNamed(Routes.PARKINGLOT, arguments: element.id);
+        }
       });
+      destinationData.forEach((element) {
+        if (element.name.toUpperCase() == textSearch.value.toUpperCase()) {
+          chooseFivePL(element.location);
+        }
+      });
+    }
+  }
+
+  Future<void> chooseFivePL(GeoPoint point2) async {
+    status(Status.loading);
+    if (connect.value == ConnectInternet.valid) {
+      await getDistantPL(point2);
+      Future.delayed(
+          Duration(milliseconds: 1500),
+              () async {
+            await listPL.sort((a,b) => a.distance.compareTo(b.distance));
+            status(Status.success);
+            Get.toNamed(Routes.FIVENEARESTPARKINGLOTS, arguments: listPL);
+          }
+      );
+    } else {
+      status(Status.error);
+      showDialogAnnounce(
+          content: 'Please check your internet!'
+      );
+    }
+  }
+
+  Future<List<ParkingLotJson>> getDistantPL(GeoPoint point2) async {
+    listPL.forEach((element) {
+      countDistant(element.location, point2, element.id);
     });
-    //Get.toNamed(Routers.FIVENEARSTPL);
+    return listPL;
   }
 
   Future<void> countDistant(GeoPoint point1, GeoPoint point2, String id) async {
@@ -221,14 +239,11 @@ class HomeController extends Controller {
         point2.latitude,
         point2.longitude
     );
-    parkingLot.doc(id)
-        .update({
-      'distance' : double.parse((distance/1000).toStringAsFixed(1))
-    });
+    final int index = listPL.indexWhere((element) => element.id == id);
+    listPL[index].distance = double.parse((distance/1000).toStringAsFixed(1));
   }
 
   Future<void> goToBill({VoidCallback callback}) async {
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       bill
@@ -255,7 +270,6 @@ class HomeController extends Controller {
   }
 
   Future<void> goToRent() async {
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       userState
@@ -283,7 +297,6 @@ class HomeController extends Controller {
   }
 
   Future<void> goToReservation() async {
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       userState

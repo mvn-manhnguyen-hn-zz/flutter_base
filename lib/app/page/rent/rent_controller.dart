@@ -99,23 +99,25 @@ class RentController extends Controller {
         price(_differentTime.inHours*parkingLotInformation.value.price
             + ((_differentTime.inMinutes - _differentTime.inHours*60) > 10 ? 1 : 0)*parkingLotInformation.value.price);
         bill.doc(idBill).update(
-            BillJson(
-                idBill: idBill,
-                price: price.value,
-                timeUsed: _differentTime.inMinutes
-            ).toJson()
+            {
+              'idBill' : idBill,
+              'price' : price.value,
+              'timeUsed' : _differentTime.inMinutes
+            }
         );
       } else {
         final _differentTime = returnTime.toDate().difference(rentTime.toDate());
         price(_differentTime.inHours*parkingLotInformation.value.price
             + ((_differentTime.inMinutes - _differentTime.inHours*60) > 10 ? 1 : 0)*parkingLotInformation.value.price);
-        bill.doc(idBill).update(BillJson(
-            idBill: idBill,
-            price: price.value,
-            penalty: parkingLotInformation.value.penalty,
-            timeUsed: _differentTime.inMinutes,
-            timeOverdue: _now.difference(returnTime.toDate()).inMinutes
-        ).toJson());
+        bill.doc(idBill).update(
+            {
+              'idBill' : idBill,
+              'price' : price.value,
+              'penalty' : parkingLotInformation.value.penalty,
+              'timeUsed' : _differentTime.inMinutes,
+              'timeOverdue' : _now.difference(returnTime.toDate()).inMinutes
+            }
+        );
       }
     } else {
       status(Status.error);

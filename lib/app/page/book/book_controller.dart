@@ -105,10 +105,10 @@ class BookController extends Controller{
       userState
           .doc(idBookState.value)
           .update(
-          UserStateJson(
-              stateRent: true,
-              rentedTime: Timestamp.fromDate(_now)
-          ).toJson()
+          {
+            'stateRent' : true,
+            'rentedTime' : _now
+          }
       ).then((value) async {
         await addPointPL(userStateInformation.value.idPL);
         Get.offNamed(

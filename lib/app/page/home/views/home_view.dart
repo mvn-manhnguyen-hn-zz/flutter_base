@@ -1,4 +1,4 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/home/home_controller.dart';
@@ -20,7 +20,6 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
     controller.checkInternet();
     controller.getInformation();
     controller.getMarkers();
-    controller.getDestination();
     controller.announceCancelPoint();
     controller.getCurrentLocation();
     textListener();
@@ -36,7 +35,7 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
 
   void textListener() {
     textEditingController.addListener(() {
-        controller.textSearch(textEditingController.text);
+        controller.research(textEditingController.text);
     });
   }
 
@@ -47,72 +46,66 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
     );
   }
 
-  Widget autoCompleteTextField() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: AutoCompleteTextField(
-        clearOnSubmit: false,
-        suggestions: controller.destination,
-        style: TextStyle(color: Colors.black),
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
-            suffixIcon: IconButton(
+  Widget textFieldComplete() {
+    return TextField(
+      controller: textEditingController,
+      style: TextStyle(fontSize: 21),
+      decoration: InputDecoration(
+          hintText: 'Enter your destination',
+          fillColor: Colors.white,
+          filled: true,
+          suffixIcon: IconButton(
               icon: Icon(Icons.search),
-              onPressed: () => controller.query(),
-            ),
-            hintText: 'Enter your destination',
-            fillColor: Colors.white,
-            filled: true,
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
+              onPressed: () => controller.queryDestination()),
+          contentPadding: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
+          focusedBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(
                   Radius.circular(20)
-              ),
+              )
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+                Radius.circular(20)
             ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: const BorderRadius.all(
-                  Radius.circular(20)
-              ),
-            )
-        ),
-        itemFilter: (item, query){
-          return item.toLowerCase().startsWith(query.toLowerCase());
-        },
-        itemSorter: (a, b){
-          return a.compare(b);
-        },
-        itemSubmitted: (item){
-          if (item != null){
-            controller.chooseDestination(item);
-          }
-        },
-        itemBuilder: (context , item) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Text(
-                item,
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          );
-        },
+          )
       ),
     );
   }
 
-  Widget search() {
-    return Column(
-      children: [
-        textField(
-          controller: textEditingController,
-          suffixIcon: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: null)
-        ),
-        //Expanded(child: null)
-      ],
+  Widget search(List<String> list) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          textFieldComplete(),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black12),
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        child: Text(
+                          list[index],
+                          style: TextStyle(fontSize: 22),
+                        ),
+                      ),
+                      onTap: () {
+                        controller.textSearch(list[index]);
+                        controller.queryDestination();
+                      },
+                    );
+                  }
+              )
+          )
+        ],
+      ),
     );
   }
 
@@ -144,8 +137,8 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
             children: <Widget>[
               GoogleMap(
                 onTap: (position){
-                  //GeoPoint latLng = new GeoPoint(position.latitude, position.longitude);
-                  //_chooseFivePL(latLng);
+                  GeoPoint latLng = new GeoPoint(position.latitude, position.longitude);
+                  controller.chooseFivePL(latLng);
                 },
                 mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(
@@ -163,7 +156,7 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                   controller.mapController.complete(googleMapController);
                 },
               ),
-              controller.visible.value ? autoCompleteTextField() : Container()
+              controller.visible.value ? search(controller.listSearch) : Container()
             ],
           ),
           drawer: Drawer(

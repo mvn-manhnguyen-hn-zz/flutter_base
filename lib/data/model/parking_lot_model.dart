@@ -59,7 +59,6 @@ class ParkingLotJson {
     if (this.location != null) {
       data['location'] = this.location;
     }
-    data['distance'] = this.distance;
     data['totalPoints'] = this.totalPoints;
     data['pointsUsed'] = this.pointsUsed;
     return data;

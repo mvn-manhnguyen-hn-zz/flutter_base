@@ -17,6 +17,14 @@ class ParkingLotController extends Controller {
   final format = DateFormat("dd-MM-yyyy HH:mm").obs;
   final userInformation = Rx<UserJson>();
   final pointsUsed = 0.obs;
+  final listPLArranged = List<ParkingLotJson>();
+
+  Future<void> getListPLArranged(List<ParkingLotJson> list) async {
+    //await list.sort((a,b) => a.distance.compareTo(b.distance));
+    list.forEach((element) {
+      listPLArranged.add(element);
+    });
+  }
 
   void getInformationPL() async {
     await checkInternet();
