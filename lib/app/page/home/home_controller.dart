@@ -32,7 +32,6 @@ class HomeController extends Controller {
   List<ParkingLotJson> listPL = [];
 
   Future<void> nextToHome({VoidCallback callback}) async {
-    addParkingLot();
     await checkCurrentState();
     await checkReservation();
     Future.delayed(
@@ -208,15 +207,12 @@ class HomeController extends Controller {
   Future<void> chooseFivePL(GeoPoint point2) async {
     status(Status.loading);
     if (connect.value == ConnectInternet.valid) {
-      await getDistantPL(point2);
-      Future.delayed(
-          Duration(milliseconds: 1500),
-              () async {
-            await listPL.sort((a,b) => a.distance.compareTo(b.distance));
-            status(Status.success);
-            Get.toNamed(Routes.FIVENEARESTPARKINGLOTS, arguments: listPL);
-          }
-      );
+      await getDistantPL(point2)
+          .then((value) => value.sort((a,b) => a.distance.compareTo(b.distance)))
+          .then((value){
+        status(Status.success);
+        Get.toNamed(Routes.FIVENEARESTPARKINGLOTS, arguments: listPL);
+      });
     } else {
       status(Status.error);
       showDialogAnnounce(

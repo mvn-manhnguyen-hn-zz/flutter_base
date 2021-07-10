@@ -5,16 +5,14 @@ import 'package:get/get.dart';
 import 'binding/main_binding.dart';
 
 class MyApp extends StatelessWidget {
-  final String token;
 
-  const MyApp({Key key, @required this.token}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialBinding: MainBinding(),
       debugShowCheckedModeBanner: false,
       enableLog: true,
-      initialRoute: token !=null ? Routes.HOME : AppPages.INITIAL,
+      initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       smartManagement: SmartManagement.keepFactory,
     );

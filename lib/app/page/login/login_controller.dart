@@ -24,7 +24,8 @@ class LoginController extends Controller {
         UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email.toString(),
             password: password.toString()
-        ).then((value) {
+        ).then((value) async {
+          await addParkingLot();
           users
               .doc(user.currentUser.uid)
               .update({
