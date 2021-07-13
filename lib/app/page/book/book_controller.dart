@@ -17,8 +17,7 @@ class BookController extends Controller{
   final returnTime = Rx<String>();
   final listBooks = List<UserStateJson>();
 
-  void getInformationStateBooking() async {
-    await checkInternet();
+  void getInformationStateBooking() {
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       userState

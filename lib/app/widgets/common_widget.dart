@@ -54,16 +54,19 @@ Future<void> showDialogAnnounce({
   );
 }
 
-Widget loading({Status status, BuildContext context}) => Visibility(
-      visible: status == Status.loading,
-      child: Container(
-        alignment: Alignment.center,
-        color: Colors.black12,
-        child: CircularProgressIndicator(
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
+Widget loading({Status status, BuildContext context}) {
+  print(status);
+  return Visibility(
+    visible: status == Status.loading,
+    child: Container(
+      alignment: Alignment.center,
+      color: Colors.black12,
+      child: CircularProgressIndicator(
+        backgroundColor: Theme.of(context).primaryColor,
       ),
-    );
+    ),
+  );
+}
 
 Widget textField({
   String errorText,

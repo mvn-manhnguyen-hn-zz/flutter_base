@@ -22,7 +22,6 @@ class RentController extends Controller {
   final listRents = List<UserStateJson>();
 
   void getInformationStateRent() async {
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       userState
@@ -56,7 +55,6 @@ class RentController extends Controller {
   }
 
   void getBill() async {
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       final DateTime _now = DateTime.now();
@@ -90,7 +88,6 @@ class RentController extends Controller {
   }
 
   void updateBill(Timestamp rentTime, Timestamp returnTime, String idBill) async {
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       final DateTime _now = DateTime.now();
@@ -178,7 +175,6 @@ class RentController extends Controller {
   }
 
   void updateTime() async {
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       userState
@@ -227,7 +223,6 @@ class RentController extends Controller {
 
   void getListRents() async {
     listRents.clear();
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       userState

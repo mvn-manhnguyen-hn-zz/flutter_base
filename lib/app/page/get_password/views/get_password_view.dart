@@ -13,7 +13,6 @@ class _GetPasswordState extends ViewState<GetPassword, GetPassWordController> {
 
   @override
   void initState() {
-    controller.checkInternet();
     super.initState();
   }
 

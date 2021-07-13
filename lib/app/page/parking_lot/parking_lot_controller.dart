@@ -19,15 +19,32 @@ class ParkingLotController extends Controller {
   final pointsUsed = 0.obs;
   final listPLArranged = List<ParkingLotJson>();
 
-  Future<void> getListPLArranged(List<ParkingLotJson> list) async {
-    //await list.sort((a,b) => a.distance.compareTo(b.distance));
-    list.forEach((element) {
-      listPLArranged.add(element);
-    });
+  Future<void> getListPLArranged() async {
+    if (connect.value == ConnectInternet.valid) {
+      status(Status.loading);
+      try {
+        await parkingLot
+            .orderBy('distance')
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            listPLArranged.add(ParkingLotJson.fromJson(element.data()));
+          });
+        }).then((value) => status(Status.success));
+      } catch (error) {
+        print('error: $error');
+        status(Status.error);
+        throw(error);
+      }
+    } else {
+      status(Status.error);
+      showDialogAnnounce(
+          content: 'Please check your internet!'
+      );
+    }
   }
 
   void getInformationPL() async {
-    await checkInternet();
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       parkingLot

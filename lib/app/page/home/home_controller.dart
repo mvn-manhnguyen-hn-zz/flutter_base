@@ -207,11 +207,11 @@ class HomeController extends Controller {
   Future<void> chooseFivePL(GeoPoint point2) async {
     status(Status.loading);
     if (connect.value == ConnectInternet.valid) {
+      print('------------- ${point2.latitude} and ${point2.longitude}');
       await getDistantPL(point2)
-          .then((value) => value.sort((a,b) => a.distance.compareTo(b.distance)))
-          .then((value){
+          .then((_){
         status(Status.success);
-        Get.toNamed(Routes.FIVENEARESTPARKINGLOTS, arguments: listPL);
+        Get.toNamed(Routes.FIVENEARESTPARKINGLOTS);
       });
     } else {
       status(Status.error);
@@ -221,11 +221,11 @@ class HomeController extends Controller {
     }
   }
 
-  Future<List<ParkingLotJson>> getDistantPL(GeoPoint point2) async {
+  Future getDistantPL(GeoPoint point2) async {
     listPL.forEach((element) {
       countDistant(element.location, point2, element.id);
     });
-    return listPL;
+    return;
   }
 
   Future<void> countDistant(GeoPoint point1, GeoPoint point2, String id) async {
@@ -235,8 +235,13 @@ class HomeController extends Controller {
         point2.latitude,
         point2.longitude
     );
-    final int index = listPL.indexWhere((element) => element.id == id);
-    listPL[index].distance = double.parse((distance/1000).toStringAsFixed(1));
+    //final int index = listPL.indexWhere((element) => element.id == id);
+    //listPL[index].distance = double.parse((distance/1000).toStringAsFixed(1));
+    await parkingLot
+    .doc(id)
+    .update({
+      'distance': double.parse((distance/1000).toStringAsFixed(1))
+    });
   }
 
   Future<void> goToBill({VoidCallback callback}) async {

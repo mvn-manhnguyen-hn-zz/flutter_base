@@ -14,7 +14,6 @@ class _LoginState extends ViewState<Login, LoginController> {
 
   @override
   void initState() {
-    controller.checkInternet();
     super.initState();
   }
 

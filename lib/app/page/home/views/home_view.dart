@@ -17,7 +17,6 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
 
   @override
   void initState() {
-    controller.checkInternet();
     controller.getInformation();
     controller.getMarkers();
     controller.announceCancelPoint();

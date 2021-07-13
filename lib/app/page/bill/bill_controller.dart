@@ -13,8 +13,7 @@ class BillController extends Controller {
   final returnTime = Rx<String>();
   final listBills = List<BillJson>();
 
-  void getInformationBillDetails() async {
-    await checkInternet();
+  void getInformationBillDetails() {
     if (connect.value == ConnectInternet.valid) {
       status(Status.loading);
       bill

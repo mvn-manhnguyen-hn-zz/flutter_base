@@ -14,7 +14,6 @@ class _RegisterViewState extends ViewState<RegisterView, RegisterController> {
 
   @override
   void initState() {
-    controller.checkInternet();
     super.initState();
   }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/app/base/controller.dart';
 import 'package:flutter_base/app/base/state_view.dart';
 import 'package:flutter_base/app/page/parking_lot/parking_lot_controller.dart';
 import 'package:flutter_base/app/routes/app_pages.dart';
+import 'package:flutter_base/app/widgets/common_widget.dart';
 import 'package:flutter_base/data/model/parking_lot_model.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
@@ -12,11 +14,10 @@ class FiveNearestPL extends View {
 }
 
 class _FiveNearestPLState extends ViewState<FiveNearestPL, ParkingLotController> {
-  List<ParkingLotJson> listPLArranged;
 
   @override
   void initState() {
-    listPLArranged = Get.arguments;
+    controller.getListPLArranged();
     super.initState();
   }
 
@@ -27,7 +28,7 @@ class _FiveNearestPLState extends ViewState<FiveNearestPL, ParkingLotController>
     );
   }
 
-  Widget listView() {
+  Widget listViewBody(List<ParkingLotJson> listPLArranged) {
     return ListView.builder(
         itemCount: listPLArranged.isEmpty ? 0 : 5,
         itemBuilder: (context, index) {
@@ -69,13 +70,24 @@ class _FiveNearestPLState extends ViewState<FiveNearestPL, ParkingLotController>
   @override
   Widget buildPage(BuildContext context) {
     // TODO: implement buildPage
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            '5 nearest parking lots'
+    return Obx(() => Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: Text(
+                '5 nearest parking lots'
+            ),
+          ),
+          body: listViewBody(controller.listPLArranged),
         ),
-      ),
-      body: listView(),
-    );
+        loading(
+            status: controller.status.value,
+            context: context
+        ),
+        controller.status.value == Status.error ? buttonError(
+            callback: () => controller.getListPLArranged()
+        ) : Container()
+      ],
+    ));
   }
 }

@@ -69,8 +69,8 @@ class RegisterController extends Controller {
 
   Future<void> createUser({VoidCallback callback}) async {
     if (connect.value == ConnectInternet.valid) {
+      status(Status.loading);
       try {
-        status(Status.loading);
         print('Email: $email  Password: $password');
         UserCredential userCredential = await FirebaseAuth
             .instance
@@ -103,8 +103,10 @@ class RegisterController extends Controller {
         emailError('The email address is already in use by another account');
       } catch (e) {
         print('Error: $e');
+        status(Status.error);
       }
     } else {
+      status(Status.error);
       showDialogAnnounce(
           content: 'Please check your internet!'
       );

@@ -8,12 +8,12 @@ import 'package:flutter_base/data/model/user_state_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-enum Status { loading, success, error }
+enum Status { loading, success, error, init }
 enum ConnectInternet { valid, invalid}
 
 abstract class Controller extends GetxController {
   StreamSubscription<ConnectivityResult> subscription;
-  final status = Status.loading.obs;
+  final Rx<Status> status = Status.init.obs;
   final connect = ConnectInternet.valid.obs;
 
   void listenConnectivityStatus() {
@@ -48,6 +48,7 @@ abstract class Controller extends GetxController {
   }
 
   Future<void> checkInternet() async {
+    status(Status.loading);
     const url = 'https://www.youtube.com/';
     await http.get(url).then((value) async {
       print('internet ok');
@@ -55,6 +56,7 @@ abstract class Controller extends GetxController {
     })
         .catchError((e){
       connect(ConnectInternet.invalid);
+      status(Status.success);
       showDialogAnnounce(
           content: 'Please check your internet!'
       );
