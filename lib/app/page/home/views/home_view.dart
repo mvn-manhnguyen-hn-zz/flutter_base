@@ -71,20 +71,6 @@ class HomeView extends ViewStateLess<HomeController> {
                   SizedBox(
                     height: 10,
                   ),
-                  OutlineButton(
-                    borderSide: BorderSide(
-                      color: Colors.deepPurple,
-                      width: 3,
-                    ),
-                    shape: StadiumBorder(),
-                    onPressed: () {
-                      Get.toNamed('/country');
-                    },
-                    child: Text(
-                      "Fetch by country",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
                 ],
               );
             },
